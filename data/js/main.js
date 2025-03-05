@@ -225,3 +225,13 @@ function GetMemes(){
         img.src=meme;    
     });
 }
+
+const binaryCode = document.querySelector('.binary-code');
+
+for (let i = 0; i < 20; i++) {
+  const span = document.createElement('span');
+  span.textContent = Array(8).fill(0).map(() => Math.random() < 0.5 ? '0' : '1').join(' ');
+  span.style.top = `${Math.random() * 100}%`;
+  span.style.left = `${Math.random() * 100}%`;
+  binaryCode.appendChild(span);
+}
