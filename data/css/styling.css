@@ -901,7 +901,7 @@ div.pwrshll {
 	overflow: hidden;
 	z-index: -1;
 	user-select: none;
-    filter: blur(0.05em);
+	filter: blur(0.05em);
 }
 
 .binary-background::before {
@@ -992,4 +992,135 @@ div.pwrshll {
 
 .binary-code span:nth-child(odd) {
 	animation-delay: 1.05s;
+}
+
+.holographic-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	background: #000;
+}
+
+.holographic-card {
+	width: auto;
+	height: auto;
+	background: #111;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	overflow: hidden;
+	border-radius: 15px;
+	transition: all 0.5s ease;
+}
+
+.holographic-card h2 {
+	color: #0ff;
+	font-size: 2rem;
+	position: relative;
+	z-index: 2;
+}
+
+.holographic-card::before {
+	content: "";
+	position: absolute;
+	top: -50%;
+	left: -50%;
+	width: 200%;
+	height: 200%;
+	background: linear-gradient(
+		0deg,
+		transparent,
+		transparent 30%,
+		rgba(0, 255, 255, 0.3)
+	);
+	transform: rotate(-45deg);
+	transition: all 0.5s ease;
+	opacity: 0;
+}
+
+.holographic-card:hover {
+	transform: scale(1.05);
+	box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+}
+
+.holographic-card:hover::before {
+	opacity: 1;
+	transform: rotate(-45deg) translateY(100%);
+}
+
+.animated-background {
+	/* Wave Color */
+	background: #df59eb;
+	/* Old browsers */
+	background: -moz-linear-gradient(
+		-45deg,
+		#af5ce6 0%,
+		#b033bb 52%,
+		#cf04a3 100%
+	);
+	/* FF3.6-15 */
+	background: -webkit-linear-gradient(
+		-45deg,
+		#da5ce6 0%,
+		#b033bb 52%,
+		#be04cf 100%
+	);
+	/* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(135deg, #af5ce6 0%, #b033bb 52%, #cf04a3 100%);
+	/* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#af5ce6', endColorstr='#cf04a3', GradientType=1);
+	/* IE6-9 fallback on horizontal gradient */
+	background-size: 350% 350%;
+	animation: waveColors 8s ease infinite;
+	/* End Wave Color */
+	margin: 0 auto;
+}
+
+#c {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+}
+
+@-webkit-keyframes waveColors {
+	0% {
+		background-position: 0% 7%;
+	}
+	50% {
+		background-position: 100% 94%;
+	}
+	100% {
+		background-position: 0% 7%;
+	}
+}
+
+@keyframes waveColors {
+	0% {
+		background-position: 0% 7%;
+	}
+	50% {
+		background-position: 100% 94%;
+	}
+	100% {
+		background-position: 0% 7%;
+	}
+}
+
+.shadow-dance-text {
+	font-size: 4rem;
+	color: #fff;
+	text-shadow: 5px 5px 0 #ff005e, 10px 10px 0 #00d4ff;
+	animation: shadow-dance 2s infinite;
+}
+
+@keyframes shadow-dance {
+	0%,
+	100% {
+		text-shadow: 5px 5px 0 #ff005e, 10px 10px 0 #00d4ff;
+	}
+	50% {
+		text-shadow: -5px -5px 0 #00d4ff, -10px -10px 0 #ff005e;
+	}
 }
