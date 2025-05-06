@@ -1,12 +1,18 @@
-const tabs = document.querySelectorAll('.tab-container .tabs .tab');
-const contents = document.querySelectorAll('.tab-container .tab-content .content');
+function tabChange(event, tabName) {
+    var i, tabcontent, tablinks, trigger;
+    trigger = event.target;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        if (trigger.dataset.group == tabcontent[i].dataset.group){
+            tabcontent[i].style.display = "none";
+        }
+    }
 
-tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-        tabs.forEach(t => t.classList.remove('active'));
-        contents.forEach(c => c.classList.remove('active'));
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
 
-        tab.classList.add('active');
-        document.getElementById(tab.getAttribute('data-tab')).classList.add('active');
-    });
-});
+    document.getElementById(tabName).style.display = "block";
+    event.currentTarget.className += " active";
+}

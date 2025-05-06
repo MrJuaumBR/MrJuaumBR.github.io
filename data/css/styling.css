@@ -777,66 +777,6 @@ hr.red {
 	justify-content: space-around;
 }
 
-.tab {
-	background-color: inherit;
-	float: left;
-	outline: none;
-	padding: 14px 16px;
-	background-color: #333;
-	color: #fff;
-	border: none;
-	border-radius: 20px;
-	cursor: pointer;
-
-	width: auto;
-	height: auto;
-
-	transition: background-color 0.3s;
-}
-
-.tab:hover,
-.tab.active {
-	background-color: #6a0dad; /* Purple */
-}
-
-.tab-content .content {
-	display: none;
-	padding: 20px;
-	background-color: #333;
-	border-radius: 10px;
-}
-
-.tab-content .content.active {
-	display: block;
-}
-
-/* Responsive tabs styles */
-@media only screen and (max-width: 768px) {
-	.tabs {
-		flex-direction: column;
-		align-items: flex-start;
-	}
-	.tabs .tab {
-		padding: 10px;
-	}
-	.tab-content {
-		padding: 10px;
-	}
-}
-
-@media only screen and (max-width: 480px) {
-	.tabs {
-		flex-direction: column;
-		align-items: flex-start;
-	}
-	.tabs .tab {
-		padding: 5px;
-	}
-	.tab-content {
-		padding: 5px;
-	}
-}
-
 .square-tab,
 .stb {
 	border-radius: 0;
