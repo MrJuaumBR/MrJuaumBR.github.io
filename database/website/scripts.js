@@ -7,9 +7,12 @@ var dataJSON = {
         {"name":"PyMaxEngine","path":"/data/PyMaxEngine.py","type":"py","desc":"A engine with PyGame"},
         {"name":"colors.json","path":"/data/colors.json","type":"json","desc":"A json contains colors in RGB"},
         {"name":"pyEncrypt.py","path":"/data/pyEncrypt.py","type":"py","desc":"A engine for encrypt texts, numbers and others."},
-        {"name":"abyssal eclipse news","path":"/data/news-abyssaleclipse.json","The news json that gonna be used by abyssal eclipse"}
+        {"name":"abyssal eclipse news","path":"/data/news-abyssaleclipse.json","desc":"The news json that gonna be used by abyssal eclipse"},
+        {"name":"allow-paste-bookmark","path":"/data/allow-paste-obf-bookmark.js","type":"js","desc":"A Cheat for a specific site"},
+        {"name":"allow-paste-code","path":"/data/allow-paste-obf-code.js","type":"js","desc":"A Cheat for a specific site"}
     ],
     "logs":[
+        {"date":"14/06/25 10:18","text":"2 New files added: 'allow-paste-bookmark' and 'allow-paste-code'"},
         {"date":"30/09/24 14:34","text":"Updated thw Database and Mainpage."},
         {"date":"31/08/24 14:34","text":"Updated and moved PyMaxEngine."},
         {"date":"09/07/23 16:07","text":"Bugs fixeds, added pyEncrypt.py"},

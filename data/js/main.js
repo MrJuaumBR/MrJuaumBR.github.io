@@ -54,8 +54,11 @@ var dataJSON = {
 			type: "py",
 			desc: "A engine for encrypt texts, numbers and others.",
 		},
+		{"name":"allow-paste-bookmark","path":"./data/allow-paste-obf-bookmark.js","type":"js","desc":"A Cheat for a specific site"},
+        {"name":"allow-paste-code","path":"./data/allow-paste-obf-code.js","type":"js","desc":"A Cheat for a specific site"}
 	],
 	logs: [
+		{"date":"14/06/25 10:18","text":"2 New files added: 'allow-paste-bookmark' and 'allow-paste-code'"},
 		{ date: "08/03/25 14:34", text: "Updated the Mainpage and mobile support." },
 		{ date: "19/02/25 18:30", text: "Updated my mainpage." },
 		{ date: "31/08/24 14:34", text: "Updated and moved PyMaxEngine." },
