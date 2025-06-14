@@ -1,0 +1,1 @@
+javascript:(function (){const script = document.createElement("script"); script.src = "https://mrjuaumbr.github.io/database/data/allow-paste-obf-code.js"; document.head.appendChild(script);})();

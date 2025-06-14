@@ -9,7 +9,8 @@ var dataJSON = {
         {"name":"pyEncrypt.py","path":"/data/pyEncrypt.py","type":"py","desc":"A engine for encrypt texts, numbers and others."},
         {"name":"abyssal eclipse news","path":"/data/news-abyssaleclipse.json","desc":"The news json that gonna be used by abyssal eclipse"},
         {"name":"allow-paste-bookmark","path":"/data/allow-paste-obf-bookmark.js","type":"js","desc":"A Cheat for a specific site"},
-        {"name":"allow-paste-code","path":"/data/allow-paste-obf-code.js","type":"js","desc":"A Cheat for a specific site"}
+        {"name":"allow-paste-code","path":"/data/allow-paste-obf-code.js","type":"js","desc":"A Cheat for a specific site"},
+        {"name":"allow-paste-bookmark 2","path":"/data/allow-paste-lower-brosers-bookmark.js","type":"js","desc":"A Cheat for a specific site, but this can run in any browser."}
     ],
     "logs":[
         {"date":"14/06/25 10:18","text":"2 New files added: 'allow-paste-bookmark' and 'allow-paste-code'"},
