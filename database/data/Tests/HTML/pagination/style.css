@@ -1,0 +1,93 @@
+body {
+    background-color: #1a1a1d;
+    color: #c7c7c7;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.tab-container {
+    width: 80%;
+    max-width: 600px;
+}
+
+.tabs {
+    display: flex;
+    margin-bottom: 1rem;
+    overflow: hidden;
+}
+.tabs.justify-center {
+    justify-content: center;
+}
+.tabs.justify-space-between {
+    justify-content: space-between;
+}
+.tabs.justify-space-around {
+    justify-content: space-around;
+}
+
+.tab {
+    background-color: inherit;
+    float: left;
+    outline: none;
+    padding: 14px 16px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.tab:hover,
+.tab.active {
+    background-color: #6a0dad; /* Purple */
+}
+
+.tab-content .content {
+    display: none;
+    padding: 20px;
+    background-color: #333;
+    border-radius: 10px;
+}
+
+.tab-content .content.active {
+    display: block;
+}
+
+.square-tab, .stb {
+    border-radius: 0;
+    padding: 10px 15px;
+    background-color: #444;
+}
+
+.square-tab:hover, stb:hover,
+.square-tab.active, .stb.active {
+    background-color: #ff69b4;
+}
+
+
+.color-variability:nth-of-type(odd) ,
+.cvr:nth-of-type(odd) {
+    background-color: #333;
+    color: #fff;
+
+}
+.color-variability:nth-of-type(even),
+.cvr:nth-of-type(even) {
+    background-color: #595959;
+    color: #c7c7c7;
+}
+
+.color-variability:nth-of-type(odd):hover,
+.cvr:nth-of-type(odd):hover {
+    background-color: #ff69b4;
+}
+
+.color-variability:nth-of-type(even):hover,
+.cvr:nth-of-type(even):hover {
+    background-color: #6a0dad;
+}

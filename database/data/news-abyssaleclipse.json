@@ -1,0 +1,24 @@
+{
+    "news":[
+        {
+            "title":"Abyssal Eclipse",
+            "date":"2024/12/10",
+            "content":"Hello! Version 0.0.1 Started development!"
+        },
+        {
+            "title":"Cards",
+            "date":"2024/12/12",
+            "content":"Yo! Wasup, i am currently working hard on the game, for make this work properly for you\nCurrently making the Cards System"
+        },
+        {
+            "title":"Engine",
+            "date":"2024/12/17",
+            "content":"Yo! so, the engine updated, and added the new Trail Feature for mouse that can be enable at options\nI am working into the main game system, that is little bit hard for me...\nSo sorry, delayed launch"
+        },
+        {
+            "title":"State of Game",
+            "date":"2025/01/09",
+            "content":"Yo! So, I started working into the In Game, and the Cards system is already working just for now, but i need time to optmize the ingame cu'z it's really heavy(idkw)"
+        }
+    ]
+}

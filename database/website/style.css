@@ -1,0 +1,235 @@
+:root{
+    --clr-accent: #00b0f4;
+}
+
+.nav {
+    position: fixed;
+    width: 100%;
+    top: -3%;
+    left: 0%;
+    background-color: #5865f2;
+}
+
+.nav li{
+    display: inline-block;
+    text-decoration: none;
+    color: white;
+    margin: 0 0 0 5%;
+}
+
+.nav li a{
+    color: white;
+    text-decoration: none;
+}
+.content{
+    background-color: #2b2f31;
+    margin: 5%;
+    color: white;
+}
+hr{
+    background-color: #00b0f4;
+    border-color:#00b0f4;
+}
+footer{
+    background-color: #5865f2;
+    width: 100%;
+    bottom: 0%;
+    color: white;
+    top: 0;
+    left: 0;
+    position: relative;
+}
+
+.f small {
+    width: 100%;
+}
+
+.f a {
+    right: 0%;
+    position: absolute;
+}
+
+#c div{
+    text-decoration: none;
+    color: white;
+}
+
+#c a{
+    text-decoration: none;
+    color: #5865f2;
+}
+
+a{
+    text-decoration: none;
+    color: #5865f2;
+}
+
+body{
+    background-color: #23272a;
+    color: white;
+}
+
+button {
+    background-color: #6d6f78;
+    color: white;
+    border: 0 none #00b0f4;
+    border-radius: 5%;
+}
+
+#logs{
+    margin: 5%;
+}
+
+#logs_list {
+    background-color: black;
+    color: green;
+}
+
+#scroll-to-top {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    background-color: #555;
+    color: white;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 4px;
+}
+  
+#scroll-to-top:hover {
+    background-color: #777;
+}
+
+.overlay{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 50;
+}
+
+.menu {
+    background-color: #2b2f31;
+    width: 75%;
+    padding: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 25px;
+    z-index: 999;
+}
+.menu-head{
+    background-color: #5865f2;
+    top: 0%;
+    width: 100%;
+    left: 50%;
+    text-align: right;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    border-radius: 25px 25px 0px 0px;
+    z-index: 102;
+}
+
+.mcontent{
+    margin-left: 5%;
+    margin-right: 5%;
+    z-index: 103;
+}
+
+.menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+.menu li {
+    margin-bottom: 10px;
+}
+
+.menu li a {
+    color: black;
+    text-decoration: none;
+}
+
+#closeBtn {
+    float: right;
+}
+
+.console{
+    background-color: black;
+    margin: 5%;
+    overflow: scroll;
+    height: 380px;
+}
+
+.c-green,.c-green a,.c-green li,.c-green li a{
+    color: green;
+}
+
+.liquid-title {
+    font-size: 4rem;
+    font-weight: bold;
+    color: var(--clr-accent); /* Choose your preferred color */
+    position: relative;
+    display: inline-block;
+    padding: 10px;
+    background: linear-gradient(90deg, #fff, #f0f0f0);
+    background-clip: text;
+    -webkit-background-clip: text;
+    animation: liquidAnimation 2s infinite;
+}
+  
+@keyframes liquidAnimation {
+    0%, 100% {
+        transform: scale(1, 1);
+    }
+    50% {
+        transform: scale(1.2, 0.8);
+    }
+}
+
+.title{
+    margin: 15% 0;
+    padding: 0;
+    font-size: 32px;
+    position: relative;
+    color: var(--clr-accent);
+}
+
+.title:before {
+    content: "Database";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    color: white;
+    overflow: hidden;
+    animation: animate 6s infinite;
+}
+
+@keyframes animate {
+    0% {
+    height: 25%;
+    }
+    25% {
+    height: 50%;
+    }
+    50% {
+    height: 65%;
+    }
+    75% {
+    height: 40%;
+    }
+    100% {
+    height: 25%;
+    }
+}
