@@ -6,3 +6,6 @@
 
 ## What is this site now?
 - This site is a version for a portfolio of [@MrJuaumBR](https://github.com/MrJuaumBR)
+
+## Disclaimer
+- All things in this site is just for learn.
