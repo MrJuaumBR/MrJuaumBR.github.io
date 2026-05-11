@@ -9,3 +9,6 @@
 
 ## Disclaimer
 - All things in this site is just for learn.
+
+## Promos
+- All the Promos/Links of Buyable products are for third-party sites that i don't have any directly affiliation

@@ -1,149 +1,390 @@
 <!DOCTYPE html>
-<html lang="en-us">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Database - MrJuaumBR</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <link rel="stylesheet" href="../data/css/styling.css">
-        <link rel="stylesheet" href="../data/css/main.css">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    </head>
-    <body>
-        <div class="blur" id="background"></div>
-        <div id="main">
-            <div class="header">
-                <div class="title">
-                    <caption class="caption gradient11">MrJuaum's Database</caption>
-                </div>
-                <div class="links">
-                    <!-- Links -->
-                    <ol>
-                        <li><a href="#w">What is this</a></li>
-                        <li><a href="#h">How this site work</a></li>
-                        <li><a href="#i">I can use any item</a></li>
-                        <li><a href="#c">Contacts</a></li>
-                    </ol>
-                </div>
-            </div>
-            <button onclick="scrollToTop()" id="scroll-to-top" title="Go to Top"><i class="fa-solid fa-arrow-up"></i></button>
-            <div class="content">
-                <hr class="sp">
-                <div class="sep" id="logs">
-                    <h3>Logs</h3>
-                    <button class="button rounded in" onclick="SwitchHidden('logs_list')">Show/Hide Logs</button>
-                    <br>
-                    <div id="logs_list" hidden>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database · MrJuaumBR</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="/data/css/style.css">
+    <style>
+        .logs-container {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-family: monospace;
+        }
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        .overlay .menu {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            max-width: 900px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 1.5rem;
+            position: relative;
+            margin: auto;
+            top: 5%;
+        }
+        .overlay .menu-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .console {
+            background: #000;
+            color: #0f0;
+            padding: 0.5rem;
+            border-radius: 12px;
+            font-family: monospace;
+            height: 400px;
+            overflow-y: auto;
+        }
+        .console li {
+            list-style: none;
+            margin: 0.5rem 0;
+        }
+        .console button {
+            background: transparent;
+            border: none;
+            color: #0f0;
+            cursor: pointer;
+            text-align: left;
+            width: 100%;
+            font-family: monospace;
+        }
+        .console button:hover {
+            text-decoration: underline;
+            color: #fff;
+        }
+        #item-info {
+            background: var(--surface);
+            padding: 0.75rem;
+            border-radius: 16px;
+            border-left: 3px solid var(--accent);
+        }
+        .meme-img {
+            max-width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 16px;
+            margin-top: 1rem;
+            cursor: pointer;
+            background: #222;
+        }
+        #scroll-to-top {
+            display: none;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary-light);
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+    </style>
+</head>
+<body class="theme-dark accent-purple">
+    <div class="background"></div>
 
+    <header class="site-header">
+        <div class="header-container">
+            <div class="logo">
+                <span class="logo-text">MrJuaum<span class="logo-accent">BR</span></span>
+            </div>
+            <div class="theme-dropdown">
+                <button class="dropdown-toggle" id="themeDropdownToggle">
+                    <span>Theme</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="dropdown-menu" id="themeDropdownMenu">
+                    <div class="dropdown-section">
+                        <h4>Color Presets</h4>
+                        <div class="preset-list" id="presetList"></div>
                     </div>
-                    <br>
-                </div>
-                <hr class="sp">
-                <div class="sep" id="w">
-                    <h3>What is this site?</h3>
-                    <small>Awnser:</small>
-                    <h4>
-                        It's a hosting site, for host some items like: CSS Files, JavaScript, JSON and others...<br>
-                        If you want enter contact with us, you only need click <a href="#c">here</a> or scroll down.
-                    </h4>
-                </div>
-                <hr class="sp">
-                <div class="sep" id="h">
-                    <h3>How this site work?</h3>
-                    <small>Awnser:</small>
-                    <h4>
-                        Easy and simple, get the url by clicking in <a href="#scbtn">Show Content</a> Button, this URL is for the hosted file.<br>If you put this URL all will work.<br>if your Question is how this site is developed<br>
-                        Same thing, Easy and simples, for this site is only used HTML, CSS and JavaScript<br>Some files inside of this can be other script languages like:
-                        <ol>
-                            <li>Python</li>
-                            <li>Lua</li>
-                            <li>HTML</li>
-                            <li>JavaScript</li>
-                            <li>CSS</li>
-                            <li>Small Basic</li>
-                        </ol>
-                        And please, this site have some "cheats", please don't explain!
-                    </h4>
-                </div>
-                <hr class="sp">
-                <div class="sep" id="i">
-                    <h1>I can use content from this site?</h1>
-                    <small>Awnser:</small>
-                    <h4>Yes, you can.<br>All content from this site is free to use, don't need any copyright or credits.<br>This is a database developed for better implement in projects.<br>You can see a list of all items this site store here:</h4>
-                    <button id="scbtn" class="button in rounded" onclick="OverlayOpen('cnt')">Show Content</button>
-                    <br>
-                    <br>
-                </div>
-                <div id="cnt" class="overlay" style="display: none;">
-                    <div class="menu">
-                        <div class="menu-head">
-                            <div class="mcontent">
-                                <small>Content:</small>
-                                <button onclick="OverlayOpen('cnt')" class="button in">Close</button>
-                            </div>
-                        </div>
-                        <p>Click in one to select.</p>
-                        <div style="display: inline; width: 70%;">
-                            <ul id="cnt_list" class="console c-green">
-                            </ul>
-                        </div>
-                        <div style="display: inline; width: 30%;">
-                            <ul>
-                                <li>
-                                    <div id="item-info" style="background-color: gray;" hidden>
-                                        Info:
-                                        <small id="item-id">Id: </small><br>
-                                        <span id="item-title">Title: </span><br>
-                                        <small id="item-desc">Description: <br></small><br>
-                                        <span>Link: <a id="item-link"><button>Go</button></a></span><br>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
+                    <div class="dropdown-section">
+                        <h4>Seasonal Effect</h4>
+                        <select id="seasonalSelect" class="seasonal-select">
+                            <option value="none">None</option>
+                            <option value="winter">Winter (snowflakes)</option>
+                            <option value="summer">Summer (sun rays)</option>
+                            <option value="autumn">Autumn (leaves)</option>
+                            <option value="spring">Spring (cherry blossoms)</option>
+                            <option value="christmas">Christmas</option>
+                            <option value="newyear">New Year</option>
+                            <option value="easter">Easter</option>
+                            <option value="matrix">Matrix</option>
+                        </select>
                     </div>
                 </div>
-                <hr class="sp">
-                <div class="sep">
-                    <h3>Here a meme generator using a json from this database</h3>
-                    <b>This memes is in majority in PT-BR.</b><br>
-                    <button onclick="OverlayOpen('meme')" class="button in rounded">Meme</button>
-                    <br><br>
+            </div>
+            <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav class="main-nav" id="mainNav">
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="#what">What is this?</a></li>
+                    <li><a href="#how">How it works</a></li>
+                    <li><a href="#use">Can I use it?</a></li>
+                    <li><a href="#files">Files</a></li>
+                    <li><a href="#meme-section">Meme generator</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <button class="scroll-top" id="scrollTop" aria-label="Scroll to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    <button class="cart-icon" id="cartIcon" aria-label="View products">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-badge" id="cartBadge">0</span>
+    </button>
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-modal-content">
+            <div class="cart-modal-header">
+                <h3><i class="fas fa-tag"></i> Promo Products</h3>
+                <button class="cart-modal-close" id="cartModalClose">&times;</button>
+            </div>
+            <div class="cart-modal-body" id="cartModalBody"></div>
+        </div>
+    </div>
+
+    <main class="container">
+        <section class="card" id="what">
+            <h2>📁 MrJuaum's Database</h2>
+            <p>Public file hosting for my projects – free to use anywhere. Click on any file to copy its direct URL.</p>
+        </section>
+
+        <section class="card" id="logs">
+            <h2>Logs</h2>
+            <button class="btn-outline" onclick="showOrHide('logs_list')">Show/Hide Logs</button>
+            <div id="logs_list" class="logs-container" hidden></div>
+        </section>
+
+        <section class="card" id="how">
+            <h2>What is this site?</h2>
+            <p>It's a hosting site for static files: CSS, JavaScript, JSON, images, etc. You can use these files in your own projects for free.</p>
+        </section>
+
+        <section class="card" id="use">
+            <h2>How does it work?</h2>
+            <p>All files are publicly accessible. Click "Show Content" to see and copy direct URLs.</p>
+            <button id="scbtn" class="btn-outline" onclick="OverlayOpen('cnt')">Show Content</button>
+        </section>
+
+        <div id="cnt" class="overlay">
+            <div class="menu">
+                <div class="menu-head">
+                    <small>Available files</small>
+                    <button class="btn-outline" onclick="OverlayOpen('cnt')">Close</button>
                 </div>
-                <div id="meme" class="overlay" style="display: none;">
-                    <div class="menu">
-                        <div class="menu-head">
-                            <div class="mcontent">
-                                <small>Memes:</small>
-                                <button onclick="OverlayOpen('meme')" class="button in">Close</button>
-                            </div>
-                        </div>
-                        <p>A random meme in PT-BR!</p>
-                        <small>if you want to get a meme list, <button onclick="hideandopen()" class="button in">click here</button>!</small><br>
-                        <button onclick="GetMemes()" class="button in">Generate a new meme</button>
-                        <script>
-                            function hideandopen(){
-                                OverlayOpen('meme');
-                                OverlayOpen('cnt');
-                            }
-                        </script>
-                        <div>
-                            <img src="" onclick="GetMemes()" id="meme-img" style="width:90%; height: 600px; position: relative; margin: 5%;" title="This is from the memes-pt-br.json">
+                <p>Click a file to see its details and copy the link.</p>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <div style="flex: 2;">
+                        <ul id="cnt_list" class="console"></ul>
+                    </div>
+                    <div style="flex: 1;">
+                        <div id="item-info" hidden>
+                            <small id="item-id"></small><br>
+                            <span id="item-title"></span><br>
+                            <small id="item-desc"></small><br>
+                            <span>Link: <a id="item-link" target="_blank">Copy URL</a></span>
                         </div>
                     </div>
                 </div>
             </div>
-            <br>
-            <footer>
-                <br>
-                <span><a href="/">MrJuaumBR - 2024</a></span><br>
-            </footer>
         </div>
-        <script src="../data/js/main.js" type="text/javascript"></script>
-        <script src="https://raw.githubusercontent.com/MrJuaumBR/StylingSomething.github.io/main/data/script.js" type="text/javascript"></script>
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-        <script src="https://kit.fontawesome.com/9bf0cadce3.js" crossorigin="anonymous"></script>
-    </body>
+
+        <section class="card" id="meme-section">
+            <h2>🎭 Meme generator (PT-BR)</h2>
+            <p>Random memes from the database's JSON file.</p>
+            <button class="btn-outline" onclick="OverlayOpen('meme')">Generate a meme</button>
+        </section>
+        <div id="meme" class="overlay">
+            <div class="menu">
+                <div class="menu-head">
+                    <small>Memes (PT-BR)</small>
+                    <button class="btn-outline" onclick="OverlayOpen('meme')">Close</button>
+                </div>
+                <p>A random meme in Portuguese!</p>
+                <small>Want the full list? <button class="btn-outline" onclick="hideandopen()">Click here</button></small><br>
+                <button class="btn-outline" onclick="GetMemes()">Generate new meme</button>
+                <div style="text-align: center;">
+                    <img src="" onclick="GetMemes()" id="meme-img" class="meme-img" title="Click to get another meme">
+                </div>
+            </div>
+        </div>
+
+        <footer class="site-footer">
+            <p>MrJuaumBR · 2026</p>
+            <button class="btn-outline" id="toggleDatabaseInfo">Show database info</button>
+            <div id="databaseInfo" hidden>
+                <p>Root data directory: <code>/data/</code></p>
+                <p>Meme JSON: <code>/database/data/memes-pt-br.json</code></p>
+            </div>
+        </footer>
+    </main>
+
+    <script src="/data/js/promo.js"></script>
+    <script src="/data/js/main.js"></script>
+    <script src="https://mrjuaumbr.github.io/StylingSomething.github.io/data/script.js"></script>
+    
+    <script>
+        const dataJSON = {
+            "free": [
+                {"name":"style.css","path":"/data/css/style.css","type":"css","desc":"Main theme stylesheet"},
+                {"name":"styling.css","path":"/data/css/styling.css","type":"css","desc":"Legacy gradients"},
+                {"name":"main.js","path":"/data/js/main.js","type":"js","desc":"Main site JavaScript"},
+                {"name":"promo.js","path":"/data/js/promo.js","type":"js","desc":"Product data"},
+                {"name":"LunaEngine","path":"https://mrjuaumbr.github.io/LunaEngine","type":"site","desc":"2D game engine in Python"},
+                {"name":"memes-pt-br.json","path":"/database/data/memes-pt-br.json","type":"json","desc":"PT-BR meme image URLs"},
+                {"name":"colors.json","path":"/data/colors.json","type":"json","desc":"RGB colors list"},
+                {"name":"abyssal eclipse news","path":"/data/news-abyssaleclipse.json","type":"json","desc":"News for Abyssal Eclipse"}
+            ],
+            "logs": [
+                {"date":"30/09/24 14:34","text":"Updated the Database and Mainpage."},
+                {"date":"31/08/24 14:34","text":"Updated and moved PyMaxEngine."},
+                {"date":"09/07/23 16:07","text":"Bug fixes, added pyEncrypt.py"},
+                {"date":"07/07/23 18:36","text":"Colors json, PyMaxEngine and deleted PooPEngine 2"},
+                {"date":"02/06/23 08:41","text":"Content updated, bug fixes and some improvements."},
+                {"date":"01/06/23 09:17","text":"Memes page and new memes."},
+                {"date":"11/05/26 15:30","text":"Added LunaEngine link and StylingSomething script."},
+                {"date":"11/05/26 15:25","text":"Revamped database.html with integrated theme and file browser."}
+            ]
+        };
+
+        window.GetMemes = function() {
+            fetch('/database/data/memes-pt-br.json')
+                .then(response => response.json())
+                .then(data => {
+                    const meme = data[Math.floor(Math.random() * data.length)];
+                    const img = document.getElementById('meme-img');
+                    if (img) img.src = meme;
+                })
+                .catch(err => {
+                    const img = document.getElementById('meme-img');
+                    if (img) img.src = 'https://placehold.co/600x400?text=Error+loading+meme';
+                });
+        };
+
+        window.GetClickedSpan = function(index) {
+            const item = dataJSON.free[index];
+            if (!item) return;
+            const infoDiv = document.getElementById('item-info');
+            const titleSpan = document.getElementById('item-title');
+            const linkAnchor = document.getElementById('item-link');
+            const idSpan = document.getElementById('item-id');
+            const descSmall = document.getElementById('item-desc');
+            
+            titleSpan.textContent = `📄 ${item.name}`;
+            linkAnchor.href = item.path;
+            linkAnchor.textContent = item.path;
+            idSpan.textContent = `ID: ${index}  |  Type: ${item.type}`;
+            descSmall.textContent = `Description: ${item.desc || 'No description'}`;
+            infoDiv.hidden = false;
+        };
+
+        window.getFiles = function() {
+            const listContainer = document.getElementById('cnt_list');
+            listContainer.innerHTML = '';
+            dataJSON.free.forEach((file, idx) => {
+                const li = document.createElement('li');
+                const btn = document.createElement('button');
+                btn.textContent = file.name;
+                btn.onclick = () => GetClickedSpan(idx);
+                li.appendChild(btn);
+                listContainer.appendChild(li);
+            });
+        };
+
+        window.getLogs = function() {
+            const logsDiv = document.getElementById('logs_list');
+            logsDiv.innerHTML = '';
+            const ol = document.createElement('ol');
+            dataJSON.logs.forEach(log => {
+                const li = document.createElement('li');
+                li.innerHTML = `<strong>${log.date}</strong> — ${log.text}`;
+                ol.appendChild(li);
+            });
+            logsDiv.appendChild(ol);
+        };
+
+        window.showOrHide = function(id) {
+            const element = document.getElementById(id);
+            if (element.hidden) {
+                element.hidden = false;
+                if (id === 'logs_list') getLogs();
+            } else {
+                element.hidden = true;
+            }
+        };
+
+        window.OverlayOpen = function(id) {
+            const overlay = document.getElementById(id);
+            if (!overlay) return;
+            const isVisible = overlay.style.display === 'flex';
+            if (isVisible) {
+                overlay.style.display = 'none';
+            } else {
+                overlay.style.display = 'flex';
+                if (id === 'cnt') getFiles();
+                if (id === 'meme') GetMemes();
+            }
+        };
+
+        window.hideandopen = function() {
+            OverlayOpen('meme');
+            OverlayOpen('cnt');
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const logsDiv = document.getElementById('logs_list');
+            if (logsDiv) logsDiv.hidden = true;
+            
+            document.querySelectorAll('.overlay').forEach(overlay => {
+                overlay.addEventListener('click', (e) => {
+                    if (e.target === overlay) overlay.style.display = 'none';
+                });
+            });
+        });
+
+        const toggleDbInfo = document.getElementById('toggleDatabaseInfo');
+        const dbInfoDiv = document.getElementById('databaseInfo');
+        if (toggleDbInfo && dbInfoDiv) {
+            toggleDbInfo.addEventListener('click', () => {
+                dbInfoDiv.hidden = !dbInfoDiv.hidden;
+                toggleDbInfo.textContent = dbInfoDiv.hidden ? 'Show database info' : 'Hide database info';
+            });
+        }
+    </script>
+</body>
 </html>
