@@ -1,0 +1,26 @@
+# Site: mrjuaumbr.github.io
+
+## About
+This is the personal website and project hub for João Pedro (MrJuaumBR), a young developer from Brazil.
+
+## Developer Information
+- **Name**: João Pedro
+- **Location**: Brazil
+- **Born**: May 9, 2008
+- **Started Coding**: Age 10
+- **Skills**: Python (Intermediate), Small Basic (Advanced), JavaScript (Basic), Luau/Lua (Basic), Blender (Beginner), Aseprite (Intermediate)
+- **Goals**: Pursue Computer Science/Data Science in college, master Python, and create a notable 2D Python game.
+
+## Key Projects
+- **[LunaEngine](https://mrjuaumbr.github.io/LunaEngine)**: A modern 2D game framework for Python, utilizing OpenGL and OpenAL for high performance. (Actively developed)
+- **[MaxPyGame](https://mrjuaumbr.github.io/maxpygame)**: A retired PyGame plugin designed to simplify game development with pre-built UI elements.
+- **[PixelDungeon 2](https://github.com/MrJuaumBR/PixelDungeon2)**: An RPG game built with Python and PyGame.
+- **[Abyssal Eclipse](https://github.com/MrJuaumBR/AbyssalEclipse)**: A "Vampire Survivors-like" game developed in PyGame.
+- **[JPyDB](https://github.com/MrJuaumBR/JPyDB)**: A custom database system written in Python.
+- **[Wireless Keyboard](https://github.com/MrJuaumBR/WirelessKeyboard)**: A tool to transform a smartphone into a wireless macro pad.
+
+## Related Links
+- **GitHub**: [https://github.com/MrJuaumBR](https://github.com/MrJuaumBR)
+- **Discord**: [https://discord.gg/fb84sHDX7R](https://discord.gg/fb84sHDX7R)
+- **YouTube**: [https://youtube.com/@MrJuaumBR](https://youtube.com/@MrJuaumBR)
+- **Roblox**: [https://www.roblox.com/users/883814625/profile](https://www.roblox.com/users/883814625/profile)

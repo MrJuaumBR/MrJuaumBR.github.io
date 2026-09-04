@@ -10,7 +10,7 @@ if (menuToggle && mainNav) {
   });
 }
 
-// ===== SCROLL TO TOP BUTTON (safe) =====
+// ===== SCROLL TO TOP BUTTON =====
 const scrollTopBtn = document.getElementById('scrollTop');
 if (scrollTopBtn) {
   window.addEventListener('scroll', () => {
@@ -228,7 +228,7 @@ function regenerateParticles() {
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => createParticles());
 else createParticles();
 
-// ===== CART MODAL (with absolute image paths) =====
+// ===== CART MODAL =====
 const cartIcon = document.getElementById('cartIcon');
 const cartModal = document.getElementById('cartModal');
 const cartModalClose = document.getElementById('cartModalClose');
@@ -266,8 +266,7 @@ function renderCartModal(page = 1) {
   
   let html = `<div class="products-grid">`;
   pageProducts.forEach(prod => {
-    // Absolute path: /data/assets/
-    const imagePath = prod.image_name ? `/data/assets/${prod.image_name}` : '';
+    const imagePath = prod.image_name ? `/data/assets/products/${prod.image_name}` : '';
     html += `
       <div class="product-card-modal">
         ${imagePath ? `<img src="${imagePath}" alt="${escapeHtml(prod.name)}" onerror="this.src='https://placehold.co/200x120?text=No+Image'">` : `<div style="height:120px; background:#2d2d2d; border-radius:12px; display:flex; align-items:center; justify-content:center;">📦</div>`}
@@ -320,12 +319,14 @@ window.addEventListener('scroll', () => {
 
 loadProductsFromPromos();
 
-// ===== LUNAENGINE CAROUSEL =====
+// ===== LUNAENGINE CAROUSEL (with Plyr for video slide) =====
 const carouselContainer = document.querySelector('#tab-lunaengine .carousel-container');
 if (carouselContainer) {
   let slideIndex = 0;
   const slides = document.querySelectorAll('#tab-lunaengine .carousel-slide');
   const dots = document.querySelectorAll('#tab-lunaengine .dot');
+  let plyrInstance = null;
+
   function showSlide(n) {
     if (n >= slides.length) slideIndex = 0;
     if (n < 0) slideIndex = slides.length - 1;
@@ -333,11 +334,511 @@ if (carouselContainer) {
     dots.forEach(dot => dot.classList.remove('active'));
     if (slides[slideIndex]) slides[slideIndex].classList.add('active');
     if (dots[slideIndex]) dots[slideIndex].classList.add('active');
+
+    const activeSlide = slides[slideIndex];
+    const videoContainer = activeSlide.querySelector('#player3');
+    if (videoContainer && typeof Plyr !== 'undefined') {
+      if (plyrInstance) {
+        plyrInstance.destroy();
+        plyrInstance = null;
+      }
+      plyrInstance = new Plyr(videoContainer, {
+        controls: [
+          'play-large',
+          'play',
+          'progress',
+          'current-time',
+          'duration',
+          'mute',
+          'volume',
+          'captions',
+          'settings',
+          'pip',
+          'fullscreen'
+        ]
+      });
+      console.log('Plyr HTML5 player initialized for carousel slide');
+    } else {
+      if (plyrInstance) {
+        plyrInstance.destroy();
+        plyrInstance = null;
+      }
+    }
   }
+
   const prevBtn = document.querySelector('#tab-lunaengine .carousel-prev');
   const nextBtn = document.querySelector('#tab-lunaengine .carousel-next');
   if (prevBtn) prevBtn.addEventListener('click', () => { slideIndex--; showSlide(slideIndex); });
   if (nextBtn) nextBtn.addEventListener('click', () => { slideIndex++; showSlide(slideIndex); });
   dots.forEach((dot, idx) => dot.addEventListener('click', () => { slideIndex = idx; showSlide(slideIndex); }));
   if (slides.length) showSlide(0);
+}
+
+// ===== GITHUB INTEGRATION =====
+const GITHUB_USER = 'MrJuaumBR';
+
+const profileContainer = document.getElementById('github-profile');
+const reposContainer = document.getElementById('github-repos');
+const loadingEl = document.getElementById('github-loading');
+const perPageSelect = document.getElementById('perPageSelect');
+const prevBtn = document.getElementById('prevPage');
+const nextBtn = document.getElementById('nextPage');
+const pageInfo = document.getElementById('pageInfo');
+
+let allRepos = [];
+let currentProjectPage = 1;
+let perPage = parseInt(perPageSelect?.value || 10);
+
+function getLanguageColor(lang) {
+    const colors = {
+        JavaScript: '#f1e05a',
+        Python: '#3572A5',
+        HTML: '#e34c26',
+        CSS: '#563d7c',
+        Luau: '#00a2ff',
+        Lua: '#000080',
+    };
+    return colors[lang] || '#cccccc';
+}
+
+function renderRepos() {
+    if (!allRepos.length) {
+        reposContainer.innerHTML = '<p>No public repositories found.</p>';
+        return;
+    }
+    const useLargeCards = perPage <= 10;
+    reposContainer.classList.toggle('large-cards', useLargeCards);
+    const start = (currentProjectPage - 1) * perPage;
+    const end = start + perPage;
+    const pageRepos = allRepos.slice(start, end);
+    if (pageRepos.length === 0 && currentProjectPage > 1) {
+        const totalPages = Math.ceil(allRepos.length / perPage);
+        currentProjectPage = totalPages;
+        renderRepos();
+        return;
+    }
+    reposContainer.innerHTML = pageRepos.map((repo, index) => {
+        const delay = index * 0.05;
+        return `
+            <div class="repo-card" style="animation-delay: ${delay}s;">
+                <h4><a href="${repo.html_url}" target="_blank">${repo.name}</a></h4>
+                <p>${repo.description || 'No description'}</p>
+                <div class="repo-stats">
+                    ${repo.language ? `<span><i class="fas fa-circle" style="color:${getLanguageColor(repo.language)}"></i> ${repo.language}</span>` : ''}
+                    <span><i class="fas fa-star"></i> ${repo.stargazers_count}</span>
+                    <span><i class="fas fa-code-fork"></i> ${repo.forks_count}</span>
+                    <span><i class="fas fa-calendar-alt"></i> ${new Date(repo.updated_at).toLocaleDateString()}</span>
+                </div>
+            </div>
+        `;
+    }).join('');
+    updatePagination();
+
+    // If the border toggle is ON, wrap the newly added repo cards
+    if (borderToggle && borderToggle.checked) {
+        wrapCards('.repo-card');
+    }
+}
+
+function updatePagination() {
+    const totalPages = Math.ceil(allRepos.length / perPage) || 1;
+    pageInfo.textContent = `${currentProjectPage} / ${totalPages}`;
+    prevBtn.disabled = currentProjectPage === 1;
+    nextBtn.disabled = currentProjectPage === totalPages;
+}
+
+function goToPage(page) {
+    const totalPages = Math.ceil(allRepos.length / perPage) || 1;
+    if (page < 1 || page > totalPages) return;
+    currentProjectPage = page;
+    renderRepos();
+}
+
+function setPerPage(value) {
+    perPage = parseInt(value);
+    currentProjectPage = 1;
+    renderRepos();
+}
+
+if (profileContainer && reposContainer) {
+    Promise.all([
+        fetch(`https://api.github.com/users/${GITHUB_USER}`),
+        fetch(`https://api.github.com/users/${GITHUB_USER}/repos?sort=updated&per_page=100`)
+    ])
+    .then(responses => Promise.all(responses.map(r => r.json())))
+    .then(([profile, repos]) => {
+        if (loadingEl) loadingEl.style.display = 'none';
+        allRepos = repos;
+        profileContainer.innerHTML = `
+            <img class="github-avatar" src="${profile.avatar_url}" alt="${profile.login}">
+            <div class="github-info">
+                <h3>${profile.name || profile.login}</h3>
+                <p>${profile.bio || ''}</p>
+                <p>
+                    <i class="fas fa-users"></i> ${profile.followers} followers ·
+                    <i class="fas fa-user-plus"></i> ${profile.following} following ·
+                    <i class="fas fa-code"></i> ${profile.public_repos} repos
+                </p>
+                <a href="${profile.html_url}" target="_blank" class="btn-outline" style="margin:0;">View profile →</a>
+            </div>
+        `;
+        const faviconLink = document.querySelector("link[rel='icon']");
+        if (faviconLink) faviconLink.href = profile.avatar_url;
+        const appleIcon = document.querySelector("link[rel='apple-touch-icon']");
+        if (appleIcon) {appleIcon.href = profile.avatar_url;}
+        renderRepos();
+        // If border is on, wrap repos after initial render
+        if (borderToggle && borderToggle.checked) {
+            wrapCards('.repo-card');
+        }
+        perPageSelect.addEventListener('change', (e) => { setPerPage(e.target.value); });
+        prevBtn.addEventListener('click', () => { if (currentProjectPage > 1) goToPage(currentProjectPage - 1); });
+        nextBtn.addEventListener('click', () => {
+            const totalPages = Math.ceil(allRepos.length / perPage);
+            if (currentProjectPage < totalPages) goToPage(currentProjectPage + 1);
+        });
+    })
+    .catch(err => {
+        if (loadingEl) loadingEl.textContent = 'Failed to load projects. Please try again later.';
+        console.error('GitHub API error:', err);
+    });
+}
+
+// ===== RENDER GAMES =====
+function renderGames() {
+    const container = document.getElementById('gamesContainer');
+    if (!container) return;
+    if (!window.games || window.games.length === 0) {
+        container.innerHTML = '<p>No games added yet.</p>';
+        return;
+    }
+
+    const platformIcons = {
+        'PC': 'fa-solid fa-desktop',
+        'PlayStation': 'fa-brands fa-playstation',
+        'Xbox': 'fa-brands fa-xbox',
+        'Nintendo': 'fa-brands fa-nintendo-switch',
+        'Mobile': 'fa-solid fa-mobile-screen-button',
+        'VR': 'fa-vr',
+        'Mac': 'fa-mac',
+        'Linux': 'fa-linux',
+    };
+
+    const colorThemes = ['blue', 'orange', 'green', 'pink', 'purple', 'yellow'];
+    const genreIcons = {
+        'Action RPG': 'fa-solid fa-sword',
+        'Racing': 'fa-solid fa-car',
+        'Sandbox': 'fa-solid fa-cubes',
+        'Action Adventure': 'fa-solid fa-hat-wizard',
+        'Fighting': 'fa-solid fa-hand-fist',
+        'Open World': 'fa-solid fa-earth-americas',
+        'Arcade Racing': 'fa-solid fa-flag-checkered',
+        'Survival': 'fa-solid fa-heart-pulse',
+        'Simulation': 'fa-solid fa-microchip',
+        'Survival Horror': 'fa-solid fa-skull',
+        'Puzzle': 'fa-puzzle',
+        'RPG': 'fa-rpg',
+        'Action': 'fa-action',
+    };
+
+    container.innerHTML = window.games.map((game, index) => {
+        const themeColor = colorThemes[index % colorThemes.length];
+        const genreIcon = genreIcons[game.genre] || 'fa-solid fa-gamepad';
+        const platformsHtml = (game.platforms || []).map(plat => {
+            const iconClass = platformIcons[plat] || 'fa-solid fa-gamepad';
+            return `<i class="${iconClass}" title="${plat}"></i>`;
+        }).join('');
+
+        return `
+            <div class="game-card game-card--${themeColor}">
+                <div class="game-cover">
+                    <img src="/data/assets/games/${game.image}" alt="${game.name}" loading="lazy" onerror="this.src='https://placehold.co/400x400?text=${encodeURIComponent(game.name)}'">
+                </div>
+                
+                <div class="game-overlay"></div>
+                
+                <div class="game-genre">
+                    <i class="${genreIcon}"></i> ${game.genre || 'Game'}
+                </div>
+                
+                <div class="game-main-info">
+                    <div class="game-main-info-inner">
+                        <div class="game-platforms">${platformsHtml}</div>
+                        <h4>${game.name}</h4>
+                        <div class="game-subtitle">${game.developer || '?'}</div>
+                    </div>
+                </div>
+                
+                <div class="game-detail-panel">
+                    <div class="game-detail-inner">
+                        <div class="game-title">${game.name}</div>
+                        <div class="game-description">${game.description || 'No description available.'}</div>
+                        <div class="game-meta">
+                            <span><i class="fa-regular fa-building"></i> ${game.developer || '?'}</span>
+                            <span><i class="fa-regular fa-tag"></i> ${game.publisher || '?'}</span>
+                            <span><i class="fa-regular fa-calendar"></i> ${game.releaseDate || 'TBD'}</span>
+                        </div>
+                        <a href="${game.link}" target="_blank" class="btn-outline game-view-btn">Play Now <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function renderArtists() {
+    const container = document.getElementById('artistsCarousel');
+    if (!container) return;
+    if (!window.artists || window.artists.length === 0) {
+        container.innerHTML = '<p style="color: var(--text-muted);">No artists added yet.</p>';
+        return;
+    }
+
+    const renderArtistCard = (artist) => `
+        <a href="${artist.youtube}" target="_blank" class="artist-card" title="${artist.name}">
+            <img src="/data/assets/misc/${artist.image}" alt="${artist.name}" loading="lazy" onerror="this.src='https://placehold.co/64x64?text=${encodeURIComponent(artist.name.charAt(0))}'">
+            <span class="artist-name">${artist.name}</span>
+            <span class="artist-badge"><i class="fab fa-youtube"></i> YouTube</span>
+        </a>
+    `;
+
+    // Two copies – animation moves by 50% of total width (one set)
+    const doubled = [...window.artists, ...window.artists];
+    container.innerHTML = doubled.map(renderArtistCard).join('');
+}
+
+
+// ===== INTERESTS TOGGLE (games only) =====
+const interestsToggle = document.getElementById('interestsToggle');
+const interestsContent = document.getElementById('interestsContent');
+
+if (interestsToggle && interestsContent) {
+    interestsContent.classList.remove('open');
+    interestsToggle.classList.remove('active');
+
+    interestsToggle.addEventListener('click', () => {
+        const isOpen = interestsContent.classList.toggle('open');
+        interestsToggle.classList.toggle('active');
+        
+        const icon = interestsToggle.querySelector('.toggle-icon');
+        if (icon) {
+            icon.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+        }
+    });
+}
+
+// ===== GAMES SHOW MORE / SHOW LESS =====
+const gamesGridWrapper = document.querySelector('.games-grid-wrapper');
+const gamesShowMoreBtn = document.getElementById('gamesShowMoreBtn');
+
+if (gamesGridWrapper && gamesShowMoreBtn) {
+    // Initially preview (first 4 only)
+    gamesGridWrapper.classList.add('preview');
+    gamesShowMoreBtn.textContent = 'Show more games';
+    gamesShowMoreBtn.classList.remove('expanded');
+
+    gamesShowMoreBtn.addEventListener('click', () => {
+        const isPreview = gamesGridWrapper.classList.toggle('preview');
+        if (isPreview) {
+            gamesShowMoreBtn.textContent = 'Show more games';
+            gamesShowMoreBtn.classList.remove('expanded');
+        } else {
+            gamesShowMoreBtn.textContent = 'Show less';
+            gamesShowMoreBtn.classList.add('expanded');
+        }
+    });
+}
+
+// ===== UNIVERSAL PLYR FOR YOUTUBE PLAYERS (player1, player2) =====
+if (typeof Plyr !== 'undefined') {
+    const youtubePlayers = document.querySelectorAll('#player1, #player2');
+    youtubePlayers.forEach((element, index) => {
+        const player = new Plyr(element, {
+            controls: [
+                'play-large',
+                'play',
+                'progress',
+                'current-time',
+                'duration',
+                'mute',
+                'volume',
+                'captions',
+                'settings',
+                'pip',
+                'fullscreen'
+            ],
+            youtube: {
+                modestbranding: 1,
+                rel: 0,
+                showinfo: 0,
+            }
+        });
+        console.log(`Plyr YouTube player ${index + 1} initialized`);
+    });
+} else {
+    console.warn('Plyr library not loaded. Video players will not work.');
+}
+
+// ================================================================
+// ===== ANIMATED BORDER TOGGLE – WRAPPER APPROACH =====
+// ================================================================
+const borderToggle = document.getElementById('borderToggle');
+let wrapperInstances = [];
+
+function wrapCards(selector) {
+    const elements = document.querySelectorAll(selector);
+    elements.forEach(el => {
+        if (el.parentElement && el.parentElement.classList.contains('border-wrapper')) return;
+        const wrapper = document.createElement('div');
+        wrapper.className = 'border-wrapper';
+        el.parentNode.insertBefore(wrapper, el);
+        wrapper.appendChild(el);
+        wrapperInstances.push(wrapper);
+    });
+}
+
+function unwrapCards() {
+    wrapperInstances.forEach(wrapper => {
+        if (wrapper.parentNode) {
+            const child = wrapper.firstElementChild;
+            wrapper.parentNode.insertBefore(child, wrapper);
+            wrapper.remove();
+        }
+    });
+    wrapperInstances = [];
+}
+
+if (borderToggle) {
+    const savedBorder = localStorage.getItem('animatedBorder');
+    if (savedBorder === 'false') {
+        borderToggle.checked = false;
+        document.body.classList.remove('animated-border');
+    } else {
+        borderToggle.checked = true;
+        document.body.classList.add('animated-border');
+        wrapCards('.card, .skill-card, .game-card, .repo-card');
+    }
+
+    borderToggle.addEventListener('change', () => {
+        if (borderToggle.checked) {
+            document.body.classList.add('animated-border');
+            localStorage.setItem('animatedBorder', 'true');
+            wrapCards('.card, .skill-card, .game-card, .repo-card');
+        } else {
+            document.body.classList.remove('animated-border');
+            localStorage.setItem('animatedBorder', 'false');
+            unwrapCards();
+        }
+    });
+}
+
+// ================================================================
+// ===== INFINITE ARTIST CAROUSEL (JS smooth loop) =====
+// ================================================================
+let artistCarousel = document.getElementById('artistsCarousel');
+let artistWrapper = document.querySelector('.artists-carousel-wrapper');
+
+if (artistCarousel && artistWrapper && window.artists && window.artists.length > 0) {
+    // We'll use requestAnimationFrame for smooth animation
+    let scrollPos = 0;
+    const speed = 0.5; // pixels per frame
+    let animationId = null;
+    let isPaused = false;
+
+    // Clone the content to make it seamless
+    const originalContent = artistCarousel.innerHTML;
+    // We already have doubled content from renderArtists, but we need to ensure it's long enough.
+    // We'll render again with triple to be safe.
+    const renderArtistCard = (artist) => `
+        <a href="${artist.youtube}" target="_blank" class="artist-card" title="${artist.name}">
+            <img src="/data/assets/misc/${artist.image}" alt="${artist.name}" loading="lazy" onerror="this.src='https://placehold.co/64x64?text=${encodeURIComponent(artist.name.charAt(0))}'">
+            <span class="artist-name">${artist.name}</span>
+            <span class="artist-badge"><i class="fab fa-youtube"></i> YouTube</span>
+        </a>
+    `;
+
+    // Triple the content to ensure seamless loop
+    const tripleArtists = [...window.artists, ...window.artists, ...window.artists];
+    artistCarousel.innerHTML = tripleArtists.map(renderArtistCard).join('');
+
+    // Measure the width of the first set (original artists)
+    // We need to calculate the width of one full set.
+    // We'll compute after a frame to get actual widths.
+    let fullSetWidth = 0;
+    const artistCards = artistCarousel.querySelectorAll('.artist-card');
+    // The number of cards in one set
+    const setSize = window.artists.length;
+    // We'll measure the width of the first 'setSize' cards
+    // Wait for layout
+    setTimeout(() => {
+        let totalWidth = 0;
+        for (let i = 0; i < setSize && i < artistCards.length; i++) {
+            totalWidth += artistCards[i].offsetWidth + 24; // gap is 1.5rem = 24px
+        }
+        fullSetWidth = totalWidth;
+        // Set initial position to 0
+        artistCarousel.style.transform = `translateX(0px)`;
+    }, 50);
+
+    function animateCarousel() {
+        if (isPaused) {
+            animationId = requestAnimationFrame(animateCarousel);
+            return;
+        }
+        scrollPos -= speed;
+        // When we've scrolled past one full set, reset to the equivalent position
+        // but we have triple content, so we can reset without jumping.
+        // We'll check if we've moved past the first set width.
+        if (fullSetWidth > 0 && Math.abs(scrollPos) >= fullSetWidth) {
+            // We can reset the position by adding the width (translate back)
+            // But we need to avoid a jump, so we shift the whole container.
+            // Since we have triple content, we can just move the transform.
+            // The trick: when we reach the end of the first set, we jump back to the start of the second set.
+            // But because we have triple, we can simply scroll continuously.
+            // We'll set scrollPos modulo fullSetWidth.
+            scrollPos = scrollPos % fullSetWidth;
+            // To avoid a jump, we'll just continue, but we need to maintain the illusion.
+            // Actually the easiest: use CSS animation with infinite, but that has reset issues.
+            // Instead, we'll use requestAnimationFrame and reset the transform without any visual jump by
+            // moving the entire container and then adding the offset.
+            // Since we have three copies, we can shift the container by fullSetWidth when reaching the end of the first copy.
+            // But we are already in a loop: we can just let scrollPos go negative and when it reaches -fullSetWidth, we set it back to 0
+            // and also translate the container by adding the width of one set.
+            // However, that would cause a jump. Better: use transform: translateX(scrollPos) and when scrollPos <= -fullSetWidth,
+            // we add fullSetWidth to scrollPos and also shift the container by adding fullSetWidth to the transform?
+            // Let's implement a common technique: we have three copies. We start at 0. When we reach -fullSetWidth, we 
+            // reset to -fullSetWidth (i.e., we are at the start of the second copy) by adding fullSetWidth to scrollPos
+            // and applying transform without transition, then continue.
+            // We'll do that.
+            // We'll set a flag to prevent transition.
+            artistCarousel.style.transition = 'none';
+            scrollPos = 0;
+            artistCarousel.style.transform = `translateX(0px)`;
+            // Force reflow
+            void artistCarousel.offsetHeight;
+            artistCarousel.style.transition = '';
+        }
+        artistCarousel.style.transform = `translateX(${scrollPos}px)`;
+        animationId = requestAnimationFrame(animateCarousel);
+    }
+
+    // Pause on hover
+    artistWrapper.addEventListener('mouseenter', () => { isPaused = true; });
+    artistWrapper.addEventListener('mouseleave', () => { isPaused = false; });
+
+    // Start animation
+    animateCarousel();
+}
+
+// ================================================================
+// ===== INITIALISE =====
+// ================================================================
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        renderGames();
+        renderArtists();
+    });
+} else {
+    renderGames();
+    renderArtists();
 }

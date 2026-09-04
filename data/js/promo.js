@@ -1,6 +1,3 @@
-// Promos = List[{name, image_name, link}]
-
-
 var promos = [
     {
         "name": "QKZ AK6 Pro",
@@ -78,8 +75,13 @@ var promos = [
         "link":"https://s.shopee.com.br/LjzPtBfuR"
     },
     {
-        "name":"Wovibo Fan Argb 120mm",
+        "name":"Wovibo Fan Argb 120mm 5x",
         "image_name":"Wovibo-fan-argb.webp",
         "link":"https://s.shopee.com.br/30kkayV2bP"
+    },
+    {
+        "name":"Wovibo Fan Argb 120mm 3x",
+        "image_name":"Wovibo-fan-argb-x3.webp",
+        "link":"https://s.shopee.com.br/6ffWHMQdMv"
     }
 ];
