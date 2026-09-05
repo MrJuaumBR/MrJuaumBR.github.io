@@ -1,5 +1,6 @@
 {
   "apps":[
-    {"name":"PyMaxEngine","version":"0.3"}
+    {"name":"PyMaxEngine","version":"0.3", "status":"Discontinued"},
+    {"name":"LunaLauncher", "version":"0", "status":"TBA"}
   ]
 }

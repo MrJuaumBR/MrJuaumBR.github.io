@@ -83,5 +83,20 @@ var promos = [
         "name":"Wovibo Fan Argb 120mm 3x",
         "image_name":"Wovibo-fan-argb-x3.webp",
         "link":"https://s.shopee.com.br/6ffWHMQdMv"
+    },
+    {
+        "name":"Keyboard Basike Ba-KEY391",
+        "image_name": "basike-Ba-KEY391.webp",
+        "link":"https://s.shopee.com.br/4VcXo2M7W8"
+    },
+    {
+        "name":"Streamdeck Ulanzi D200H",
+        "image_name": "ulanzi-d200h.webp",
+        "link":"https://s.shopee.com.br/7KwjBGFKUb"
+    },
+    {
+        "name":"Streamdeck Ulanzi D200X",
+        "image_name": "ulanzi-d200x.webp",
+        "link":"https://s.shopee.com.br/9KhnYzkEuv"
     }
 ];
