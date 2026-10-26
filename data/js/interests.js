@@ -303,11 +303,6 @@ var games = [
 // ===== ARTISTS =====
 var artists = [
     {
-        "name": "NEFFEX",
-        "image": "neffex.png",
-        "youtube": "https://www.youtube.com/@neffexmusic"
-    },
-    {
         "name": "Eminem",
         "image": "eminem.jpeg",
         "youtube": "https://www.youtube.com/@eminem"
@@ -328,33 +323,38 @@ var artists = [
         "youtube": "https://www.youtube.com/@systemofadown"
     },
     {
-        "name":"Marino",
-        "image":"marino.jpg",
-        "youtube":"https://www.youtube.com/@MarinoMakesMusic"
+        "name": "Marino",
+        "image": "marino.jpg",
+        "youtube": "https://www.youtube.com/@MarinoMakesMusic"
     },
     {
-        "name":"Marshmello",
-        "image":"marshmello.jpg",
-        "youtube":"https://www.youtube.com/@marshmello"
+        "name": "Marshmello",
+        "image": "marshmello.jpg",
+        "youtube": "https://www.youtube.com/@marshmello"
     },
     {
-        "name":"CG5",
-        "image":"cg5.jpg",
-        "youtube":"https://www.youtube.com/@CG5"
+        "name": "CG5",
+        "image": "cg5.jpg",
+        "youtube": "https://www.youtube.com/@CG5"
     },
     {
-        "name":"Kleberiano",
-        "image":"kleberiano.jpg",
-        "youtube":"https://www.youtube.com/@CanalKleberiano"
+        "name": "Kleberiano",
+        "image": "kleberiano.jpg",
+        "youtube": "https://www.youtube.com/@CanalKleberiano"
     },
     {
-        "name":"Fall Out Boy",
-        "image":"falloutboy.jpg",
-        "youtube":"https://www.youtube.com/@FallOutBoy"
+        "name": "Fall Out Boy",
+        "image": "falloutboy.jpg",
+        "youtube": "https://www.youtube.com/@FallOutBoy"
     },
     {
-        "name":"Kanye West",
-        "image":"kanyewest.jpg",
-        "youtube":"https://www.youtube.com/@KanyeWest"
+        "name": "NEFFEX",
+        "image": "neffex.png",
+        "youtube": "https://www.youtube.com/@neffexmusic"
+    },
+    {
+        "name": "Kanye West",
+        "image": "kanyewest.jpg",
+        "youtube": "https://www.youtube.com/@KanyeWest"
     }
 ];

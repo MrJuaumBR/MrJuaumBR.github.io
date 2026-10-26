@@ -79,121 +79,173 @@ if (dropdownToggle && dropdownMenu) {
   });
 }
 
-const presets = [
-  { name: 'Dark Purple', theme: 'dark', accent: 'purple' },
-  { name: 'Dark Pink', theme: 'dark', accent: 'pink' },
-  { name: 'Dark Black', theme: 'dark', accent: 'black' },
-  { name: 'Dark Gray', theme: 'dark', accent: 'gray' },
-  { name: 'Light Purple', theme: 'light', accent: 'purple' },
-  { name: 'Light Pink', theme: 'light', accent: 'pink' },
-  { name: 'Light Black', theme: 'light', accent: 'black' },
-  { name: 'Light Gray', theme: 'light', accent: 'gray' },
-];
-const presetList = document.getElementById('presetList');
-const body = document.body;
-if (presetList) {
-  presets.forEach(preset => {
-    const btn = document.createElement('button');
-    btn.className = 'preset-item';
-    btn.textContent = preset.name;
-    btn.dataset.theme = preset.theme;
-    btn.dataset.accent = preset.accent;
-    btn.addEventListener('click', () => {
-      body.classList.remove('theme-dark', 'theme-light', 'accent-purple', 'accent-pink', 'accent-black', 'accent-gray');
-      body.classList.add(`theme-${preset.theme}`, `accent-${preset.accent}`);
-      document.querySelectorAll('.preset-item').forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
-      if (typeof regenerateParticles === 'function') regenerateParticles();
-      if (dropdownMenu) dropdownMenu.classList.remove('show');
-      localStorage.setItem('themePreset', JSON.stringify(preset));
-    });
-    presetList.appendChild(btn);
-  });
-  const savedPreset = localStorage.getItem('themePreset');
-  if (savedPreset) {
-    try {
-      const preset = JSON.parse(savedPreset);
-      body.classList.remove('theme-dark', 'theme-light', 'accent-purple', 'accent-pink', 'accent-black', 'accent-gray');
-      body.classList.add(`theme-${preset.theme}`, `accent-${preset.accent}`);
-      document.querySelectorAll('.preset-item').forEach(btn => {
-        if (btn.dataset.theme === preset.theme && btn.dataset.accent === preset.accent) btn.classList.add('active');
-      });
-    } catch(e) {}
-  } else {
-    document.querySelector('.preset-item[data-theme="dark"][data-accent="purple"]')?.classList.add('active');
-  }
+// ===== SITE SKINS =====
+const skinSelect = document.getElementById('skinSelect');
+const skinClasses = ['skin-default', 'skin-cyberpunk', 'skin-discord', 'skin-solo-leveling', 'skin-xbox-360', 'skin-windows-xp'];
+function applySkin(skin, persist = true) {
+  const selected = ['default', 'cyberpunk', 'discord', 'solo-leveling', 'xbox-360', 'windows-xp'].includes(skin) ? skin : 'default';
+  document.body.classList.remove(...skinClasses);
+  document.body.classList.add(`skin-${selected}`);
+  if (skinSelect) skinSelect.value = selected;
+  if (persist) localStorage.setItem('siteSkin', selected);
 }
-
-// ===== SEASONAL EFFECTS =====
-const seasonalSelect = document.getElementById('seasonalSelect');
+applySkin(localStorage.getItem('siteSkin') || 'default', false);
+if (skinSelect) skinSelect.addEventListener('change', () => {
+  applySkin(skinSelect.value);
+});
+const paletteDefinitions = {
+  default: [
+    { key:'a', name:'Amethyst', swatch:'#8b5cf6' }, { key:'b', name:'Rose', swatch:'#ec4899' },
+    { key:'c', name:'Graphite', swatch:'#6b7280' }, { key:'d', name:'Lagoon', swatch:'#14b8a6' }
+  ],
+  cyberpunk: [
+    { key:'a', name:'Neon Cyan', swatch:'#00f0ff' }, { key:'b', name:'Hotline Red', swatch:'#ff2d75' },
+    { key:'c', name:'Acid Chrome', swatch:'#c7ff3d' }, { key:'d', name:'Afterlife Violet', swatch:'#bd66ff' }
+  ],
+  discord: [
+    { key:'a', name:'Blurple', swatch:'#5865f2' }, { key:'b', name:'Mint', swatch:'#3ba55d' },
+    { key:'c', name:'Coral', swatch:'#ed5e91' }, { key:'d', name:'Slate', swatch:'#747f8d' }
+  ],
+  'solo-leveling': [
+    { key:'a', name:'Shadow Monarch', swatch:'#6678ff' }, { key:'b', name:'Ruler’s Light', swatch:'#59c8ff' },
+    { key:'c', name:'Blood-red Gate', swatch:'#e34d78' }, { key:'d', name:'Golden Rank', swatch:'#e3b34b' }
+  ],
+  'xbox-360': [
+    { key:'a', name:'Xbox Live Green', swatch:'#8bc53f' }, { key:'b', name:'Blade Blue', swatch:'#3bb5d8' },
+    { key:'c', name:'Halo Gold', swatch:'#d8ae42' }, { key:'d', name:'Crimson Ring', swatch:'#cb4250' }
+  ],
+  'windows-xp': [
+    { key:'a', name:'Luna Blue', swatch:'#316ac5' }, { key:'b', name:'Olive Green', swatch:'#6f7c36' },
+    { key:'c', name:'Silver', swatch:'#74899e' }, { key:'d', name:'Royale Blue', swatch:'#2459a6' }
+  ]
+};
+const skinDefaults = { default:{mode:'dark',key:'a'}, cyberpunk:{mode:'dark',key:'a'}, discord:{mode:'dark',key:'a'}, 'solo-leveling':{mode:'dark',key:'a'}, 'xbox-360':{mode:'dark',key:'a'}, 'windows-xp':{mode:'light',key:'a'} };
+let paletteSelections = {};
+try { paletteSelections = JSON.parse(localStorage.getItem('skinPalettes') || '{}'); } catch (_) { paletteSelections = {}; }
+if (!localStorage.getItem('skinPalettes')) {
+  try {
+    const old = JSON.parse(localStorage.getItem('themePreset') || 'null');
+    if (old && ['dark','light'].includes(old.theme)) {
+      const legacyKeys = {purple:'a',pink:'b',black:'c',gray:'d'};
+      skinDefaults.default = {mode:old.theme,key:legacyKeys[old.accent] || 'a'};
+    }
+  } catch (_) {}
+}
+const body = document.body;
+const darkPresetList = document.getElementById('darkPresetList');
+const lightPresetList = document.getElementById('lightPresetList');
+const paletteClasses = ['palette-a','palette-b','palette-c','palette-d'];
+function selectPalette(skin, mode, key, persist = true) {
+  const definitions = paletteDefinitions[skin] || paletteDefinitions.default;
+  const chosen = definitions.find(item => item.key === key) || definitions[0];
+  body.classList.remove('theme-dark','theme-light',...paletteClasses,'accent-purple','accent-pink','accent-black','accent-gray');
+  body.classList.add(`theme-${mode}`,`palette-${chosen.key}`);
+  document.querySelectorAll('.preset-item').forEach(button => button.classList.toggle('active', button.dataset.skin === skin && button.dataset.mode === mode && button.dataset.palette === chosen.key));
+  if (persist) {
+    paletteSelections[skin] = {mode,key:chosen.key};
+    localStorage.setItem('skinPalettes', JSON.stringify(paletteSelections));
+    localStorage.setItem('themePreset', JSON.stringify({skin,theme:mode,palette:chosen.key}));
+  }
+  if (persist && typeof regenerateParticles === 'function') regenerateParticles();
+}
+function renderPaletteOptions() {
+  if (!darkPresetList || !lightPresetList) return;
+  const skin = skinSelect?.value || 'default';
+  const definitions = paletteDefinitions[skin] || paletteDefinitions.default;
+  [[darkPresetList,'dark'],[lightPresetList,'light']].forEach(([list,mode]) => {
+    list.replaceChildren();
+    definitions.forEach(palette => {
+      const button = document.createElement('button');
+      button.type = 'button'; button.className = 'preset-item';
+      button.dataset.skin = skin; button.dataset.mode = mode; button.dataset.palette = palette.key;
+      button.style.setProperty('--palette-swatch', palette.swatch);
+      button.innerHTML = `<span class="palette-swatch" aria-hidden="true"></span><span>${palette.name}</span>`;
+      button.setAttribute('aria-label', `${mode === 'dark' ? 'Dark' : 'Light'} ${palette.name} palette`);
+      button.addEventListener('click', () => { selectPalette(skin, mode, palette.key); if (dropdownMenu) dropdownMenu.classList.remove('show'); });
+      list.appendChild(button);
+    });
+  });
+}
+renderPaletteOptions();
+const initialSkin = skinSelect?.value || 'default';
+const initialPalette = paletteSelections[initialSkin] || skinDefaults[initialSkin] || skinDefaults.default;
+selectPalette(initialSkin, initialPalette.mode || 'dark', initialPalette.key || 'a', false);
+if (skinSelect) skinSelect.addEventListener('change', () => {
+  renderPaletteOptions();
+  const choice = paletteSelections[skinSelect.value] || skinDefaults[skinSelect.value] || skinDefaults.default;
+  selectPalette(skinSelect.value, choice.mode, choice.key, false);
+  if (typeof regenerateParticles === 'function') regenerateParticles();
+  if (dropdownMenu) dropdownMenu.classList.remove('show');
+});
+const xpClock = document.getElementById('xpClock');
+function updateXPClock() {
+  if (!xpClock) return;
+  xpClock.textContent = new Intl.DateTimeFormat(undefined, {hour:'numeric', minute:'2-digit'}).format(new Date());
+}
+updateXPClock();
+if (xpClock) setInterval(updateXPClock, 30000);
+// ===== SETUP PHOTO CAROUSEL =====
+(() => {
+  const carousel = document.getElementById('setupCarousel');
+  if (!carousel) return;
+  const slides = [...carousel.querySelectorAll('.setup-carousel-slide')];
+  const dots = [...carousel.querySelectorAll('.setup-carousel-dots button')];
+  const count = document.getElementById('setupSlideCount');
+  let current = 0;
+  const show = (index) => {
+    current = (index + slides.length) % slides.length;
+    slides.forEach((slide, i) => { slide.hidden = i !== current; slide.classList.toggle('active', i === current); });
+    dots.forEach((dot, i) => { dot.classList.toggle('active', i === current); if (i === current) dot.setAttribute('aria-current','true'); else dot.removeAttribute('aria-current'); });
+    if (count) count.textContent = `${String(current + 1).padStart(2,'0')} / ${String(slides.length).padStart(2,'0')}`;
+  };
+  carousel.querySelector('.setup-carousel-prev')?.addEventListener('click', () => show(current - 1));
+  carousel.querySelector('.setup-carousel-next')?.addEventListener('click', () => show(current + 1));
+  dots.forEach(dot => dot.addEventListener('click', () => show(Number(dot.dataset.go))));
+  carousel.addEventListener('keydown', e => { if (e.key === 'ArrowLeft') show(current - 1); if (e.key === 'ArrowRight') show(current + 1); });
+})();
+// ===== AUTOMATIC HOLIDAY EFFECTS (NO USER SELECTOR) =====
 let seasonalContainer = null;
-function getCurrentSeason() {
-  const today = new Date();
-  const month = today.getMonth() + 1;
-  const day = today.getDate();
-  if ((month === 12 && day >= 21) || month === 1 || month === 2 || (month === 3 && day <= 20)) return 'summer';
-  if ((month === 3 && day >= 21) || month === 4 || month === 5 || (month === 6 && day <= 20)) return 'autumn';
-  if ((month === 6 && day >= 21) || month === 7 || month === 8 || (month === 9 && day <= 22)) return 'winter';
-  if ((month === 9 && day >= 23) || month === 10 || month === 11 || (month === 12 && day <= 20)) return 'spring';
-  return 'none';
+function getEasterDate(year) {
+  // Gregorian computus: Easter Sunday, used for the local calendar year.
+  const a = year % 19, b = Math.floor(year / 100), c = year % 100;
+  const d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25);
+  const g = Math.floor((b - f + 1) / 3), h = (19 * a + b - d - g + 15) % 30;
+  const i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7;
+  const m = Math.floor((a + 11 * h + 22 * l) / 451);
+  const month = Math.floor((h + l - 7 * m + 114) / 31);
+  const day = ((h + l - 7 * m + 114) % 31) + 1;
+  return new Date(year, month - 1, day);
 }
 function getCurrentHoliday() {
-  const today = new Date();
-  const month = today.getMonth() + 1;
-  const day = today.getDate();
-  if (month === 12 && (day === 24 || day === 25)) return 'christmas';
-  if ((month === 12 && day === 31) || (month === 1 && day === 1)) return 'newyear';
-  if ((month === 3 && day >= 22) || (month === 4 && day <= 25)) return 'easter';
+  const now = new Date(), month = now.getMonth(), day = now.getDate();
+  if (month === 9 && day === 31) return 'halloween';
+  if (month === 11 && (day === 24 || day === 25)) return 'christmas';
+  if ((month === 11 && day === 31) || (month === 0 && day === 1)) return 'newyear';
+  const easter = getEasterDate(now.getFullYear());
+  if (now.toDateString() === easter.toDateString()) return 'easter';
   return null;
 }
-if (seasonalSelect) {
-  let initialSeason = getCurrentHoliday() || getCurrentSeason();
-  seasonalSelect.value = initialSeason;
-  function createSeasonalEffect(type) {
-    if (seasonalContainer) seasonalContainer.remove();
-    if (type === 'none') return;
-    seasonalContainer = document.createElement('div');
-    seasonalContainer.className = 'seasonal-container';
-    const count = 40;
-    let symbol, className;
-    switch (type) {
-      case 'winter': symbol = '❄️'; className = 'snowflake'; break;
-      case 'summer': symbol = '☀️'; className = 'sun-ray'; break;
-      case 'autumn': symbol = '🍂'; className = 'leaf'; break;
-      case 'spring': symbol = '🌸'; className = 'blossom'; break;
-      case 'christmas': symbol = '🎄'; className = 'santa-hat'; break;
-      case 'newyear': symbol = '🎉'; className = 'confetti'; break;
-      case 'easter': symbol = '🥚'; className = 'easter-egg'; break;
-      case 'matrix': className = 'matrix-char'; break;
-      default: return;
-    }
-    for (let i = 0; i < count; i++) {
-      const el = document.createElement('div');
-      el.className = className;
-      if (type === 'matrix') el.innerHTML = Math.random() < 0.5 ? '0' : '1';
-      else el.innerHTML = symbol;
-      el.style.left = Math.random() * 100 + '%';
-      el.style.animationDuration = Math.random() * 5 + 5 + 's';
-      el.style.animationDelay = Math.random() * 5 + 's';
-      el.style.fontSize = Math.random() * 1.5 + 0.5 + 'rem';
-      el.style.opacity = Math.random() * 0.7 + 0.3;
-      seasonalContainer.appendChild(el);
-    }
-    document.body.appendChild(seasonalContainer);
+function createHolidayEffect(type) {
+  seasonalContainer?.remove();
+  seasonalContainer = null;
+  if (!type) return;
+  seasonalContainer = document.createElement('div');
+  seasonalContainer.className = `seasonal-container holiday-${type}`;
+  const effect = { halloween: ['☾','🦇','✦'], christmas: ['❄','✧','🎄'], newyear: ['✦','✧','✺'], easter: ['✿','🥚','✧'] }[type];
+  if (!effect) return;
+  for (let i = 0; i < 24; i++) {
+    const item = document.createElement('span');
+    item.className = 'holiday-particle';
+    item.textContent = effect[i % effect.length];
+    item.style.left = `${Math.random() * 100}%`;
+    item.style.animationDuration = `${7 + Math.random() * 9}s`;
+    item.style.animationDelay = `${Math.random() * 7}s`;
+    item.style.setProperty('--drift', `${Math.round((Math.random() - .5) * 100)}px`);
+    seasonalContainer.appendChild(item);
   }
-  const savedSeason = localStorage.getItem('seasonalEffect');
-  if (savedSeason) {
-    seasonalSelect.value = savedSeason;
-    createSeasonalEffect(savedSeason);
-  } else {
-    createSeasonalEffect(initialSeason);
-  }
-  seasonalSelect.addEventListener('change', (e) => {
-    const value = e.target.value;
-    createSeasonalEffect(value);
-    localStorage.setItem('seasonalEffect', value);
-  });
+  document.body.appendChild(seasonalContainer);
 }
+createHolidayEffect(getCurrentHoliday());
 
 // ===== PARTICLES =====
 let particlesContainer;
@@ -214,10 +266,10 @@ function createParticles() {
     const duration = Math.random() * 10 + 5;
     particle.style.animation = `float ${duration}s infinite linear`;
     particle.style.animationDelay = Math.random() * 5 + 's';
-    let hue, saturation, lightness, alpha;
-    if (isDark) { hue = Math.random() * 40 + 260; saturation = 70; lightness = 60; alpha = 0.3; }
-    else { hue = Math.random() * 60 + 200; saturation = 50; lightness = 70; alpha = 0.2; }
-    particle.style.backgroundColor = `hsla(${hue}, ${saturation}%, ${lightness}%, ${alpha})`;
+    const computedStyle = getComputedStyle(body);
+    const particleColor = computedStyle.getPropertyValue(i % 2 ? '--primary-light' : '--accent').trim();
+    particle.style.backgroundColor = particleColor || (isDark ? '#9d4edd' : '#64dfdf');
+    particle.style.opacity = isDark ? '0.34' : '0.18';
     particlesContainer.appendChild(particle);
   }
 }
@@ -434,10 +486,6 @@ function renderRepos() {
     }).join('');
     updatePagination();
 
-    // If the border toggle is ON, wrap the newly added repo cards
-    if (borderToggle && borderToggle.checked) {
-        wrapCards('.repo-card');
-    }
 }
 
 function updatePagination() {
@@ -487,10 +535,6 @@ if (profileContainer && reposContainer) {
         const appleIcon = document.querySelector("link[rel='apple-touch-icon']");
         if (appleIcon) {appleIcon.href = profile.avatar_url;}
         renderRepos();
-        // If border is on, wrap repos after initial render
-        if (borderToggle && borderToggle.checked) {
-            wrapCards('.repo-card');
-        }
         perPageSelect.addEventListener('change', (e) => { setPerPage(e.target.value); });
         prevBtn.addEventListener('click', () => { if (currentProjectPage > 1) goToPage(currentProjectPage - 1); });
         nextBtn.addEventListener('click', () => {
@@ -561,6 +605,7 @@ function renderGames() {
                     <i class="${genreIcon}"></i> ${game.genre || 'Game'}
                 </div>
                 
+                <button type="button" class="game-details-toggle" aria-expanded="false" aria-label="Toggle details for ${game.name}"><i class="fas fa-circle-info" aria-hidden="true"></i></button>
                 <div class="game-main-info">
                     <div class="game-main-info-inner">
                         <div class="game-platforms">${platformsHtml}</div>
@@ -578,12 +623,47 @@ function renderGames() {
                             <span><i class="fa-regular fa-tag"></i> ${game.publisher || '?'}</span>
                             <span><i class="fa-regular fa-calendar"></i> ${game.releaseDate || 'TBD'}</span>
                         </div>
-                        <a href="${game.link}" target="_blank" class="btn-outline game-view-btn">Play Now <i class="fa-solid fa-arrow-right"></i></a>
+                        <a href="${game.link}" target="_blank" rel="noopener noreferrer" class="btn-outline game-view-btn">Play Now <i class="fa-solid fa-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
         `;
     }).join('');
+    if (!container.dataset.detailsBound) {
+        container.addEventListener('click', event => {
+            const toggle = event.target.closest('.game-details-toggle');
+            if (!toggle || !container.contains(toggle)) return;
+            const card = toggle.closest('.game-card');
+            const opening = !card.classList.contains('is-open');
+            container.querySelectorAll('.game-card.is-open').forEach(openCard => {
+                openCard.classList.remove('is-open');
+                const openToggle = openCard.querySelector('.game-details-toggle');
+                if (openToggle) openToggle.setAttribute('aria-expanded', 'false');
+            });
+            if (opening) {
+                card.classList.remove('is-dismissed');
+                card.classList.add('is-open');
+                toggle.setAttribute('aria-expanded', 'true');
+            } else {
+                card.classList.add('is-dismissed');
+                toggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+        container.addEventListener('pointerout', event => {
+            const card = event.target.closest('.game-card.is-dismissed');
+            if (card && !card.contains(event.relatedTarget)) card.classList.remove('is-dismissed');
+        });
+        container.addEventListener('keydown', event => {
+            if (event.key !== 'Escape') return;
+            const card = event.target.closest('.game-card.is-open');
+            if (!card) return;
+            card.classList.remove('is-open');
+            card.classList.add('is-dismissed');
+            const toggle = card.querySelector('.game-details-toggle');
+            if (toggle) { toggle.setAttribute('aria-expanded', 'false'); toggle.focus(); }
+        });
+        container.dataset.detailsBound = 'true';
+    }
 }
 
 function renderArtists() {
@@ -602,9 +682,22 @@ function renderArtists() {
         </a>
     `;
 
-    // Two copies – animation moves by 50% of total width (one set)
-    const doubled = [...window.artists, ...window.artists];
-    container.innerHTML = doubled.map(renderArtistCard).join('');
+    const firstSet = window.artists.map(renderArtistCard).join('');
+    const secondSet = window.artists.map(renderArtistCard).join('');
+    container.innerHTML = `<div class="artist-carousel-group">${firstSet}</div><div class="artist-carousel-group" aria-hidden="true">${secondSet}</div>`;
+    container.querySelectorAll('.artist-carousel-group[aria-hidden="true"] a').forEach(link => { link.tabIndex = -1; });
+    const syncArtistCycle = () => {
+        const firstGroup = container.querySelector('.artist-carousel-group');
+        if (!firstGroup) return;
+        const gap = parseFloat(getComputedStyle(container).columnGap) || 0;
+        const distance = firstGroup.getBoundingClientRect().width + gap;
+        container.style.setProperty('--artists-cycle', `-${distance}px`);
+    };
+    requestAnimationFrame(syncArtistCycle);
+    if (!container.dataset.cycleBound) {
+        window.addEventListener('resize', syncArtistCycle, {passive:true});
+        container.dataset.cycleBound = 'true';
+    }
 }
 
 
@@ -679,157 +772,16 @@ if (typeof Plyr !== 'undefined') {
     console.warn('Plyr library not loaded. Video players will not work.');
 }
 
-// ================================================================
-// ===== ANIMATED BORDER TOGGLE – WRAPPER APPROACH =====
-// ================================================================
+// ===== ANIMATED BORDER TOGGLE (CSS ONLY; NO DOM WRAPPERS) =====
 const borderToggle = document.getElementById('borderToggle');
-let wrapperInstances = [];
-
-function wrapCards(selector) {
-    const elements = document.querySelectorAll(selector);
-    elements.forEach(el => {
-        if (el.parentElement && el.parentElement.classList.contains('border-wrapper')) return;
-        const wrapper = document.createElement('div');
-        wrapper.className = 'border-wrapper';
-        el.parentNode.insertBefore(wrapper, el);
-        wrapper.appendChild(el);
-        wrapperInstances.push(wrapper);
-    });
-}
-
-function unwrapCards() {
-    wrapperInstances.forEach(wrapper => {
-        if (wrapper.parentNode) {
-            const child = wrapper.firstElementChild;
-            wrapper.parentNode.insertBefore(child, wrapper);
-            wrapper.remove();
-        }
-    });
-    wrapperInstances = [];
-}
-
 if (borderToggle) {
-    const savedBorder = localStorage.getItem('animatedBorder');
-    if (savedBorder === 'false') {
-        borderToggle.checked = false;
-        document.body.classList.remove('animated-border');
-    } else {
-        borderToggle.checked = true;
-        document.body.classList.add('animated-border');
-        wrapCards('.card, .skill-card, .game-card, .repo-card');
-    }
-
-    borderToggle.addEventListener('change', () => {
-        if (borderToggle.checked) {
-            document.body.classList.add('animated-border');
-            localStorage.setItem('animatedBorder', 'true');
-            wrapCards('.card, .skill-card, .game-card, .repo-card');
-        } else {
-            document.body.classList.remove('animated-border');
-            localStorage.setItem('animatedBorder', 'false');
-            unwrapCards();
-        }
-    });
+  borderToggle.checked = localStorage.getItem('animatedBorder') !== 'false';
+  document.body.classList.toggle('animated-border', borderToggle.checked);
+  borderToggle.addEventListener('change', () => {
+    document.body.classList.toggle('animated-border', borderToggle.checked);
+    localStorage.setItem('animatedBorder', String(borderToggle.checked));
+  });
 }
-
-// ================================================================
-// ===== INFINITE ARTIST CAROUSEL (JS smooth loop) =====
-// ================================================================
-let artistCarousel = document.getElementById('artistsCarousel');
-let artistWrapper = document.querySelector('.artists-carousel-wrapper');
-
-if (artistCarousel && artistWrapper && window.artists && window.artists.length > 0) {
-    // We'll use requestAnimationFrame for smooth animation
-    let scrollPos = 0;
-    const speed = 0.5; // pixels per frame
-    let animationId = null;
-    let isPaused = false;
-
-    // Clone the content to make it seamless
-    const originalContent = artistCarousel.innerHTML;
-    // We already have doubled content from renderArtists, but we need to ensure it's long enough.
-    // We'll render again with triple to be safe.
-    const renderArtistCard = (artist) => `
-        <a href="${artist.youtube}" target="_blank" class="artist-card" title="${artist.name}">
-            <img src="/data/assets/misc/${artist.image}" alt="${artist.name}" loading="lazy" onerror="this.src='https://placehold.co/64x64?text=${encodeURIComponent(artist.name.charAt(0))}'">
-            <span class="artist-name">${artist.name}</span>
-            <span class="artist-badge"><i class="fab fa-youtube"></i> YouTube</span>
-        </a>
-    `;
-
-    // Triple the content to ensure seamless loop
-    const tripleArtists = [...window.artists, ...window.artists, ...window.artists];
-    artistCarousel.innerHTML = tripleArtists.map(renderArtistCard).join('');
-
-    // Measure the width of the first set (original artists)
-    // We need to calculate the width of one full set.
-    // We'll compute after a frame to get actual widths.
-    let fullSetWidth = 0;
-    const artistCards = artistCarousel.querySelectorAll('.artist-card');
-    // The number of cards in one set
-    const setSize = window.artists.length;
-    // We'll measure the width of the first 'setSize' cards
-    // Wait for layout
-    setTimeout(() => {
-        let totalWidth = 0;
-        for (let i = 0; i < setSize && i < artistCards.length; i++) {
-            totalWidth += artistCards[i].offsetWidth + 24; // gap is 1.5rem = 24px
-        }
-        fullSetWidth = totalWidth;
-        // Set initial position to 0
-        artistCarousel.style.transform = `translateX(0px)`;
-    }, 50);
-
-    function animateCarousel() {
-        if (isPaused) {
-            animationId = requestAnimationFrame(animateCarousel);
-            return;
-        }
-        scrollPos -= speed;
-        // When we've scrolled past one full set, reset to the equivalent position
-        // but we have triple content, so we can reset without jumping.
-        // We'll check if we've moved past the first set width.
-        if (fullSetWidth > 0 && Math.abs(scrollPos) >= fullSetWidth) {
-            // We can reset the position by adding the width (translate back)
-            // But we need to avoid a jump, so we shift the whole container.
-            // Since we have triple content, we can just move the transform.
-            // The trick: when we reach the end of the first set, we jump back to the start of the second set.
-            // But because we have triple, we can simply scroll continuously.
-            // We'll set scrollPos modulo fullSetWidth.
-            scrollPos = scrollPos % fullSetWidth;
-            // To avoid a jump, we'll just continue, but we need to maintain the illusion.
-            // Actually the easiest: use CSS animation with infinite, but that has reset issues.
-            // Instead, we'll use requestAnimationFrame and reset the transform without any visual jump by
-            // moving the entire container and then adding the offset.
-            // Since we have three copies, we can shift the container by fullSetWidth when reaching the end of the first copy.
-            // But we are already in a loop: we can just let scrollPos go negative and when it reaches -fullSetWidth, we set it back to 0
-            // and also translate the container by adding the width of one set.
-            // However, that would cause a jump. Better: use transform: translateX(scrollPos) and when scrollPos <= -fullSetWidth,
-            // we add fullSetWidth to scrollPos and also shift the container by adding fullSetWidth to the transform?
-            // Let's implement a common technique: we have three copies. We start at 0. When we reach -fullSetWidth, we 
-            // reset to -fullSetWidth (i.e., we are at the start of the second copy) by adding fullSetWidth to scrollPos
-            // and applying transform without transition, then continue.
-            // We'll do that.
-            // We'll set a flag to prevent transition.
-            artistCarousel.style.transition = 'none';
-            scrollPos = 0;
-            artistCarousel.style.transform = `translateX(0px)`;
-            // Force reflow
-            void artistCarousel.offsetHeight;
-            artistCarousel.style.transition = '';
-        }
-        artistCarousel.style.transform = `translateX(${scrollPos}px)`;
-        animationId = requestAnimationFrame(animateCarousel);
-    }
-
-    // Pause on hover
-    artistWrapper.addEventListener('mouseenter', () => { isPaused = true; });
-    artistWrapper.addEventListener('mouseleave', () => { isPaused = false; });
-
-    // Start animation
-    animateCarousel();
-}
-
 // ================================================================
 // ===== INITIALISE =====
 // ================================================================

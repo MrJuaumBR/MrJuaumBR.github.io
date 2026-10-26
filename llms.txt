@@ -1,26 +1,48 @@
-# Site: mrjuaumbr.github.io
+# MrJuaumBR
 
-## About
-This is the personal website and project hub for João Pedro (MrJuaumBR), a young developer from Brazil.
+> Personal portfolio and project hub for João Pedro, known online as MrJuaumBR, a developer and creator from Brazil.
 
-## Developer Information
-- **Name**: João Pedro
-- **Location**: Brazil
-- **Born**: May 9, 2008
-- **Started Coding**: Age 10
-- **Skills**: Python (Intermediate), Small Basic (Advanced), JavaScript (Basic), Luau/Lua (Basic), Blender (Beginner), Aseprite (Intermediate)
-- **Goals**: Pursue Computer Science/Data Science in college, master Python, and create a notable 2D Python game.
+## Pages
 
-## Key Projects
-- **[LunaEngine](https://mrjuaumbr.github.io/LunaEngine)**: A modern 2D game framework for Python, utilizing OpenGL and OpenAL for high performance. (Actively developed)
-- **[MaxPyGame](https://mrjuaumbr.github.io/maxpygame)**: A retired PyGame plugin designed to simplify game development with pre-built UI elements.
-- **[PixelDungeon 2](https://github.com/MrJuaumBR/PixelDungeon2)**: An RPG game built with Python and PyGame.
-- **[Abyssal Eclipse](https://github.com/MrJuaumBR/AbyssalEclipse)**: A "Vampire Survivors-like" game developed in PyGame.
-- **[JPyDB](https://github.com/MrJuaumBR/JPyDB)**: A custom database system written in Python.
-- **[Wireless Keyboard](https://github.com/MrJuaumBR/WirelessKeyboard)**: A tool to transform a smartphone into a wireless macro pad.
+- [Portfolio home](https://mrjuaumbr.github.io/): Single-page portfolio covering the developer profile, skills, projects, GitHub repositories, contacts, PC setup, favorite games and artists.
+- [About](https://mrjuaumbr.github.io/#whoami): Developer background and interests.
+- [Skills](https://mrjuaumbr.github.io/#whatiknow): Python, HTML, CSS, JavaScript, Luau, Blender, Aseprite and 3D printing.
+- [Projects](https://mrjuaumbr.github.io/#projects): Eleven project profiles shown as tabs on the homepage; the tabs are not separate page URLs.
+- [GitHub repositories](https://mrjuaumbr.github.io/#github-projects): GitHub profile and repository listing.
+- [Contacts](https://mrjuaumbr.github.io/#contacts): Public social and creator profiles.
+- [PC setup](https://mrjuaumbr.github.io/#setup): Setup history for 2023, 2024 and 2026, plus current PC and console details.
+- [LunaEngine project site](https://mrjuaumbr.github.io/LunaEngine): Separate project page for LunaEngine.
 
-## Related Links
-- **GitHub**: [https://github.com/MrJuaumBR](https://github.com/MrJuaumBR)
-- **Discord**: [https://discord.gg/fb84sHDX7R](https://discord.gg/fb84sHDX7R)
-- **YouTube**: [https://youtube.com/@MrJuaumBR](https://youtube.com/@MrJuaumBR)
-- **Roblox**: [https://www.roblox.com/users/883814625/profile](https://www.roblox.com/users/883814625/profile)
+## Featured projects
+
+- [LunaEngine](https://github.com/MrJuaumBR/LunaEngine) · [Project site](https://mrjuaumbr.github.io/LunaEngine): Python 2D game framework with systems for scenes, rendering, UI, effects, audio, storage and debugging; uses Pygame, NumPy, OpenGL and OpenAL.
+- [NCheats](https://github.com/MrJuaumBR/NCheats): Browser-based cheat-code library for Nintendo Switch, Nintendo 3DS and Game Boy Advance.
+- [LunaEngine-Games](https://github.com/MrJuaumBR/LunaEngine-Games): Companion game collection and desktop launcher for browsing, installing, updating and launching games.
+- [DungeonGenerator](https://github.com/MrJuaumBR/DungeonGenerator): Configurable Python generator for seeded, multi-floor dungeon layouts, with BSP room placement, graph/BFS connections and JSON export.
+- [RizzLeveling](https://github.com/MrJuaumBR/RizzLeveling): Interactive character dashboard with stats, skills, inventory, a live clock and canvas effects; it also inspired the portfolio’s Solo Leveling skin.
+- [JPyDB](https://github.com/MrJuaumBR/JPyDB): Pure-Python storage system with a SQL-inspired table workflow and spreadsheet export.
+- [Abyssal Eclipse](https://github.com/MrJuaumBR/AbyssalEclipse): In-development Python 2D roguelike shooter with randomized level-up cards.
+- [Wireless Keyboard](https://github.com/MrJuaumBR/WirelessKeyboard): Python tool for connecting a phone browser to a PC server through a local URL or QR code.
+- [Pixel Dungeon 2](https://github.com/MrJuaumBR/PixelDungeon2): Python/Pygame pixel-art RPG; the portfolio includes a screenshot showing version 1.0.3.
+- [Medieval Life](https://www.roblox.com/games/14806242136/Medieval-Life): Roblox RPG project with a brief homepage overview and screenshot.
+- [The Eclipse](https://www.roblox.com/pt/games/102068786196502/The-Eclipse): Roblox dark-fantasy RPG project with an overview and two embedded development logs on the portfolio.
+
+## Profile and interests
+
+João Pedro says he has been coding since age 10, starting with Small Basic and Scratch before moving to Luau, Python and JavaScript. The portfolio lists goals including studying Computer Science or Data Science, creating a 2D Python game and improving Python optimization skills.
+
+The portfolio offers six selectable visual skins: the original default, Cyberpunk / Night City, Discord, Solo Leveling, Xbox 360 Dashboard and Windows XP. Each skin has its own color palettes. Seasonal effects are reserved for major holidays. The homepage also includes a setup-photo carousel, favorite-games collection and an endlessly scrolling favorite-artists carousel.
+
+## Public profiles
+
+- [GitHub](https://github.com/MrJuaumBR)
+- [YouTube](https://youtube.com/@MrJuaumBR)
+- [Discord server](https://discord.gg/fb84sHDX7R)
+- [Roblox profile](https://www.roblox.com/users/883814625/profile)
+- [Roblox group: PotatoBR Studios](https://www.roblox.com/pt/groups/15924219/PotatoBR-Studios)
+- [Steam](https://steamcommunity.com/id/juaumpe/)
+- [MyAnimeList](https://myanimelist.net/profile/JuaumPdro)
+
+## Notes for crawlers and assistants
+
+Project tabs and homepage sections are content on the single `/` page; their `#...` links are section anchors, not separate pages. Repository, Roblox and social links lead to external sites. The sitemap is at [sitemap.xml](https://mrjuaumbr.github.io/sitemap.xml).

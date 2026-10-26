@@ -29,25 +29,22 @@
                     <i class="fas fa-chevron-down"></i>
                 </button>
                 <div class="dropdown-menu" id="themeDropdownMenu">
-                    <div class="dropdown-section">
-                        <h4>Color Presets</h4>
-                        <div class="preset-list" id="presetList"></div>
-                    </div>
-                    <div class="dropdown-section">
-                        <h4>Seasonal Effect</h4>
-                        <select id="seasonalSelect" class="seasonal-select">
-                            <option value="none">None</option>
-                            <option value="winter">Winter (snowflakes)</option>
-                            <option value="summer">Summer (sun rays)</option>
-                            <option value="autumn">Autumn (leaves)</option>
-                            <option value="spring">Spring (cherry blossoms)</option>
-                            <option value="christmas">Christmas</option>
-                            <option value="newyear">New Year</option>
-                            <option value="easter">Easter</option>
-                            <option value="matrix">Matrix</option>
+                    <div class="dropdown-section skin-picker-section">
+                        <h4>Site Skin</h4>
+                        <select id="skinSelect" class="seasonal-select" aria-label="Choose site skin">
+                            <option value="default">Default · original experience</option>
+                            <option value="cyberpunk">Night City · Cyberpunk</option>
+                            <option value="discord">Discord · community</option>
+                            <option value="solo-leveling">Solo Leveling · Shadow Monarch</option>
+                            <option value="xbox-360">Xbox 360 Dashboard · Blades / NXE</option>
+                            <option value="windows-xp">Windows XP · Classic Luna</option>
                         </select>
                     </div>
                     <div class="dropdown-section">
+                        <h4>Color palettes</h4>
+                        <div class="palette-mode"><h5><i class="fas fa-moon"></i> Dark</h5><div class="preset-list" id="darkPresetList"></div></div>
+                        <div class="palette-mode"><h5><i class="fas fa-sun"></i> Light</h5><div class="preset-list" id="lightPresetList"></div></div>
+                    </div><div class="dropdown-section">
                         <h4>Border Effect</h4>
                         <label class="toggle-label">
                             <input type="checkbox" id="borderToggle" checked>
@@ -70,6 +67,10 @@
                     <li><a href="#setup">My setup</a></li>
                 </ul>
             </nav>
+            <div class="xp-tray" id="xpTray" aria-label="Windows system tray">
+                <i class="fas fa-volume-high" aria-hidden="true"></i>
+                <span id="xpClock" aria-live="off">--:--</span>
+            </div>
         </div>
     </header>
 
@@ -171,52 +172,64 @@
                 <button class="tab-btn" data-tab="wireless">Wireless Keyboard</button>
                 <button class="tab-btn" data-tab="the-eclipse">The Eclipse</button>
                 <button class="tab-btn" data-tab="lunaengine">LunaEngine</button>
+                <button class="tab-btn" data-tab="ncheats">NCheats</button>
+                <button class="tab-btn" data-tab="luna-games">LunaEngine Games</button>
+                <button class="tab-btn" data-tab="dungeon-generator">Dungeon Generator</button>
+                <button class="tab-btn" data-tab="rizzleveling">RizzLeveling</button>
             </div>
-            <div class="tab-content active" id="tab-medieval">
-                <h3><a href="https://www.roblox.com/games/14806242136/Medieval-Life" target="_blank">Medieval Life</a></h3>
-                <p>A Roblox RPG with simple mechanics.</p>
-                <img src="/data/assets/projects/medievallife.png" alt="Medieval Life" loading="lazy"/>
-            </div>
-            <div class="tab-content" id="tab-pixel">
-                <h3><a href="https://github.com/MrJuaumBR/PixelDungeon2" target="_blank">Pixel Dungeon 2</a></h3>
-                <p>RPG game in Python/PyGame.</p>
-                <img src="/data/assets/projects/pixeldungeon2.png" alt="Pixel Dungeon 2" loading="lazy"/>
-            </div>
-            <div class="tab-content" id="tab-abyssal">
-                <h3><a href="https://github.com/MrJuaumBR/AbyssalEclipse" target="_blank">Abyssal Eclipse</a></h3>
-                <p>Vampire Survivors-like in PyGame.</p>
-                <img src="/data/assets/projects/abyssaleclipse.png" alt="Abyssal Eclipse" loading="lazy"/>
-            </div>
-            <div class="tab-content" id="tab-wireless">
-                <h3><a href="https://github.com/MrJuaumBR/WirelessKeyboard" target="_blank">Wireless Keyboard</a></h3>
-                <p>Turn your phone into a macro pad.</p>
-            </div>
-            <div class="tab-content" id="tab-the-eclipse">
-                <h3><a href="https://www.roblox.com/pt/games/102068786196502/The-Eclipse" target="_blank">The Eclipse</a></h3>
-                <p class="game-description">
-                    <strong>About the game:</strong><br>
-                    The Eclipse is a dark fantasy RPG set in a world consumed by an eternal night. 
-                    As the chosen one, you must venture through cursed lands, fight terrifying creatures, 
-                    and uncover the secrets of the eclipse that plunged the world into darkness. 
-                    With a deep combat system, mysterious lore, and a haunting atmosphere, 
-                    The Eclipse offers an immersive experience for players seeking a challenging adventure.
-                </p>
-                <p><em>- From the Roblox game page</em></p>
-
-                <div class="videos-grid">
-                    <div class="video-wrapper">
-                        <h4><i class="fas fa-film"></i> Devlog #1</h4>
-                        <div id="player1" data-plyr-provider="youtube" data-plyr-embed-id="tfW-PLdymyo"></div>
-                    </div>
-                    <div class="video-wrapper">
-                        <h4><i class="fas fa-play-circle"></i> Devlog #2</h4>
-                        <div id="player2" data-plyr-provider="youtube" data-plyr-embed-id="fPzCtGiVmEw"></div>
-                    </div>
+            <div class="tab-content project-panel active" id="tab-medieval">
+                <div class="project-panel-heading"><span class="project-kicker"><i class="fas fa-gamepad"></i> ROBLOX PROJECT · RPG</span><h3>Medieval Life</h3></div>
+                <p class="project-lede">A Roblox RPG described as using simple mechanics. Its screenshot shows a moonlit settlement scene, player-status readouts and an on-screen level-progress display.</p>
+                <div class="project-facts"><div><strong>What the screenshot shows</strong><p>A nighttime world, a visible player panel, and a Level 76 progress bar. The Roblox page does not currently provide more public detail, so the description stays close to the original summary and supplied image.</p></div><div><strong>Platform</strong><p>Play it on Roblox. The tab’s preview is a screenshot from the project.</p></div></div>
+                <div class="project-chips"><span>Roblox</span><span>RPG</span><span>Player-status HUD</span></div>
+                <figure class="project-screenshot"><img src="/data/assets/projects/medievallife.png" alt="Medieval Life Roblox screenshot showing a moonlit scene and level display" loading="lazy"><figcaption>In-game screenshot · moonlit world and player level display</figcaption></figure>
+                <a class="project-link" href="https://www.roblox.com/games/14806242136/Medieval-Life" target="_blank" rel="noopener noreferrer"><i class="fas fa-gamepad"></i> Play Medieval Life on Roblox <i class="fas fa-arrow-up-right-from-square"></i></a>
+            </div><div class="tab-content project-panel" id="tab-pixel">
+                <div class="project-panel-heading"><span class="project-kicker"><i class="fas fa-dungeon"></i> GITHUB PROJECT · PYTHON RPG</span><h3>Pixel Dungeon 2</h3></div>
+                <p class="project-lede">A pixel-art RPG project made with Python and Pygame. The linked repository currently does not expose a readable README, so this summary uses the existing project description and the supplied in-game screenshot.</p>
+                <div class="project-facts"><div><strong>Project snapshot</strong><p>The included screenshot identifies version 1.0.3 and shows a main menu with Play, Options, Mods and Exit entries.</p></div><div><strong>Tech and build</strong><p>The existing portfolio identifies Python and Pygame as the project’s stack. An FPS counter is also visible in the screenshot.</p></div></div>
+                <div class="project-chips"><span>Python</span><span>Pygame</span><span>RPG</span><span>v1.0.3 screenshot</span></div>
+                <figure class="project-screenshot"><img src="/data/assets/projects/pixeldungeon2.png" alt="Pixel Dungeon 2 version 1.0.3 menu screenshot" loading="lazy"><figcaption>Version 1.0.3 · Play / Options / Mods / Exit</figcaption></figure>
+                <a class="project-link" href="https://github.com/MrJuaumBR/PixelDungeon2" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Open Pixel Dungeon 2 on GitHub <i class="fas fa-arrow-up-right-from-square"></i></a>
+            </div><div class="tab-content project-panel" id="tab-jpydb">
+                <div class="project-panel-heading"><span class="project-kicker"><i class="fas fa-database"></i> GITHUB PROJECT · PYTHON STORAGE</span><h3>JPyDB</h3></div>
+                <p class="project-lede">A pure-Python storage system with a SQL-inspired table workflow for creating tables, defining columns, saving values, and loading the database again.</p>
+                <div class="project-facts">
+                    <div><strong>Database workflow</strong><p>The README examples create tables and typed columns, add rows, save the database, and use a handler to work with it.</p></div>
+                    <div><strong>Sheet export</strong><p>It also documents exporting saved table data as a <code>.xls</code> spreadsheet through <code>GetSheet()</code>.</p></div>
                 </div>
+                <div class="project-chips"><span>Python</span><span>SQL-inspired API</span><span>Pickle · Base64</span></div>
+                <a class="project-link" href="https://github.com/MrJuaumBR/JPyDB" target="_blank" rel="noopener"><i class="fab fa-github"></i> Explore JPyDB <i class="fas fa-arrow-up-right-from-square"></i></a>
             </div>
-            <div class="tab-content" id="tab-lunaengine">
-                <h3><a href="https://mrjuaumbr.github.io/LunaEngine" target="_blank">LunaEngine</a></h3>
-                <p>2D game engine in Python (OpenGL, OpenAL).</p>
+            <div class="tab-content project-panel" id="tab-abyssal">
+                <div class="project-panel-heading"><span class="project-kicker"><i class="fas fa-meteor"></i> GITHUB PROJECT · ROGUELIKE SHOOTER</span><h3>Abyssal Eclipse</h3></div>
+                <p class="project-lede">An in-development 2D roguelike shooter written in Python. The project README describes randomized level-up cards, each with different effects.</p>
+                <div class="project-facts"><div><strong>Level-up choices</strong><p>Randomized cards appear at level-ups, giving the run different effects and choices.</p></div><div><strong>Development snapshot</strong><p>The README marks the project as still in development and includes a command for listing the available cards: <code>python abyssaleclipse.py --cards</code>.</p></div></div>
+                <div class="project-chips"><span>Python</span><span>2D</span><span>Roguelike shooter</span><span>Randomized upgrade cards</span></div>
+                <figure class="project-screenshot"><img src="/data/assets/projects/abyssaleclipse.png" alt="Abyssal Eclipse project preview" loading="lazy"><figcaption>Abyssal Eclipse · project preview</figcaption></figure>
+                <a class="project-link" href="https://github.com/MrJuaumBR/AbyssalEclipse" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Explore Abyssal Eclipse on GitHub <i class="fas fa-arrow-up-right-from-square"></i></a>
+            </div><div class="tab-content project-panel" id="tab-wireless">
+                <div class="project-panel-heading"><span class="project-kicker"><i class="fas fa-mobile-screen-button"></i> GITHUB PROJECT · PC CONTROL</span><h3>Wireless Keyboard</h3></div>
+                <p class="project-lede">A small Python tool for controlling a PC from a phone. Start its server on the computer, then open the address it prints in the phone’s browser.</p>
+                <div class="project-facts"><div><strong>Connect a phone</strong><p>The README describes scanning a QR code or typing the generated URL into a browser to reach the server.</p></div><div><strong>Under the hood</strong><p>The repository lists Flask, keyboard and pycaw among its requirements. Its README does not document a fuller list of phone controls, so the panel avoids claiming specific keys or actions.</p></div></div>
+                <div class="project-chips"><span>Python</span><span>Flask</span><span>Phone-to-PC</span><span>QR / local URL</span></div>
+                <a class="project-link" href="https://github.com/MrJuaumBR/WirelessKeyboard" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> View Wireless Keyboard on GitHub <i class="fas fa-arrow-up-right-from-square"></i></a>
+            </div><div class="tab-content project-panel" id="tab-the-eclipse">
+                <div class="project-panel-heading"><span class="project-kicker"><i class="fas fa-moon"></i> ROBLOX PROJECT · DARK FANTASY RPG</span><h3>The Eclipse</h3></div>
+                <p class="project-lede">A Roblox dark-fantasy RPG framed around a world locked in eternal night. The original project description casts the player as a chosen adventurer exploring cursed lands, fighting creatures and uncovering the eclipse’s story.</p>
+                <div class="project-facts"><div><strong>World and story</strong><p>The project blurb highlights an ominous setting, cursed regions and mystery surrounding the event that darkened the world.</p></div><div><strong>Combat and devlogs</strong><p>Combat and exploration are central themes. Two embedded devlogs below show the project’s development updates.</p></div></div>
+                <div class="project-chips"><span>Roblox</span><span>Dark fantasy</span><span>RPG</span><span>Combat · exploration · lore</span></div>
+                <div class="project-link-row"><a class="project-link" href="https://www.roblox.com/pt/games/102068786196502/The-Eclipse" target="_blank" rel="noopener noreferrer"><i class="fas fa-gamepad"></i> Open The Eclipse on Roblox <i class="fas fa-arrow-up-right-from-square"></i></a></div>
+                <div class="videos-grid">
+                    <div class="video-wrapper"><h4><i class="fas fa-film"></i> Devlog #1</h4><div id="player1" data-plyr-provider="youtube" data-plyr-embed-id="tfW-PLdymyo"></div></div>
+                    <div class="video-wrapper"><h4><i class="fas fa-play-circle"></i> Devlog #2</h4><div id="player2" data-plyr-provider="youtube" data-plyr-embed-id="fPzCtGiVmEw"></div></div>
+                </div>
+            </div><div class="tab-content project-panel" id="tab-lunaengine">
+                <div class="project-panel-heading"><span class="project-kicker"><i class="fas fa-cubes"></i> GITHUB PROJECT · PYTHON GAME FRAMEWORK</span><h3><a href="https://mrjuaumbr.github.io/LunaEngine" target="_blank" rel="noopener">LunaEngine</a></h3></div>
+                <p class="project-lede">A Python 2D game framework with separate systems for scenes, rendering, UI, effects, audio, storage, and debugging.</p>
+                <div class="project-facts"><div><strong>Framework features</strong><p>Build scenes and UI, then add particle effects, dynamic lighting, and managed audio.</p></div><div><strong>Built to explore</strong><p>Python 3.11+ project using Pygame, NumPy, OpenGL, and OpenAL, with examples and documentation in the repository.</p></div></div>
+                <div class="project-chips"><span>Python 3.11+</span><span>Pygame · NumPy</span><span>PyOpenGL · PyOpenAL</span></div>
+                <p class="project-repo-link"><a href="https://github.com/MrJuaumBR/LunaEngine" target="_blank" rel="noopener"><i class="fab fa-github"></i> LunaEngine source on GitHub</a></p>
                 <div class="carousel-container">
                     <div class="carousel-slide active"><img src="/data/assets/projects/lunaengine1.png" alt="LunaEngine 1"></div>
                     <div class="carousel-slide"><img src="/data/assets/projects/lunaengine2.png" alt="LunaEngine 2"></div>
@@ -226,8 +239,47 @@
                     <div class="carousel-dots"><span class="dot active"></span><span class="dot"></span><span class="dot"></span></div>
                 </div>
             </div>
+            <div class="tab-content project-panel" id="tab-ncheats">
+                <div class="project-panel-heading"><span class="project-kicker"><i class="fas fa-gamepad"></i> GITHUB PROJECT · WEB TOOL</span><h3>NCheats</h3></div>
+                <p class="project-lede">A browser-based cheat-code library for Nintendo Switch, Nintendo 3DS, and Game Boy Advance.</p>
+                <div class="project-facts">
+                    <div><strong>Find codes faster</strong><p>Search game names with fuzzy matching, and search by title ID on Switch and 3DS.</p></div>
+                    <div><strong>Made for quick use</strong><p>Browse by platform and copy a game's cheat block in one click. The app fetches data in the browser and does not require a custom backend.</p></div>
+                </div>
+                <div class="project-chips"><span>HTML · CSS · JavaScript</span><span>JSON data</span><span>Python data tools</span></div>
+                <a class="project-link" href="https://github.com/MrJuaumBR/NCheats" target="_blank" rel="noopener"><i class="fab fa-github"></i> Browse NCheats source <i class="fas fa-arrow-up-right-from-square"></i></a>
+            </div>
+            <div class="tab-content project-panel" id="tab-luna-games">
+                <div class="project-panel-heading"><span class="project-kicker"><i class="fas fa-box-open"></i> GITHUB PROJECT · GAME LAUNCHER</span><h3>LunaEngine-Games</h3></div>
+                <p class="project-lede">A companion game collection organized around LunaLauncher, a desktop launcher for browsing and managing the games.</p>
+                <div class="project-facts">
+                    <div><strong>Launcher features</strong><p>View game details, then install, update, uninstall, or launch a game from the library.</p></div>
+                    <div><strong>Game packaging</strong><p>Project scripts collect per-game metadata, calculate package sizes, and generate downloadable ZIP archives.</p></div>
+                </div>
+                <div class="project-chips"><span>Python</span><span>CustomTkinter · PyQt5</span><span>Requests · PyYAML</span></div>
+                <a class="project-link" href="https://github.com/MrJuaumBR/LunaEngine-Games" target="_blank" rel="noopener"><i class="fab fa-github"></i> Browse LunaEngine-Games <i class="fas fa-arrow-up-right-from-square"></i></a>
+            </div>
+            <div class="tab-content project-panel" id="tab-dungeon-generator">
+                <div class="project-panel-heading"><span class="project-kicker"><i class="fas fa-dungeon"></i> GITHUB PROJECT · PROCEDURAL GENERATION</span><h3>DungeonGenerator</h3></div>
+                <p class="project-lede">A configurable Python generator for seeded, multi-floor dungeon layouts, with both reusable generation code and a graphical app.</p>
+                <div class="project-facts">
+                    <div><strong>How the layout is built</strong><p>Rooms are placed with Binary Space Partitioning (BSP), then a graph/BFS connection pass links the rooms and floors.</p></div>
+                    <div><strong>What comes out</strong><p>Generate room grids, assign room roles such as spawn, stairs, boss, and ending areas, and export the results as JSON.</p></div>
+                </div>
+                <div class="project-chips"><span>Python · NumPy</span><span>LunaEngine · Pygame app</span><span>Seeded multi-floor maps</span></div>
+                <a class="project-link" href="https://github.com/MrJuaumBR/DungeonGenerator" target="_blank" rel="noopener"><i class="fab fa-github"></i> Explore DungeonGenerator <i class="fas fa-arrow-up-right-from-square"></i></a>
+            </div>
+            <div class="tab-content project-panel" id="tab-rizzleveling">
+                <div class="project-panel-heading"><span class="project-kicker"><i class="fas fa-wand-magic-sparkles"></i> GITHUB PROJECT · INTERACTIVE WEB UI</span><h3>RizzLeveling</h3></div>
+                <p class="project-lede">A playful “Rizz System” character dashboard—and the project you pointed to as a reference for the Solo Leveling skin.</p>
+                <div class="project-facts">
+                    <div><strong>Player-status layout</strong><p>A character profile and level sit alongside stats, skill descriptions, and an inventory panel.</p></div>
+                    <div><strong>Personal visual touches</strong><p>The page adds a live clock, canvas-based effects, glowing cards, and custom styling with plain HTML, CSS, and JavaScript.</p></div>
+                </div>
+                <div class="project-chips"><span>HTML · CSS · JavaScript</span><span>Canvas effects</span><span>Character HUD</span></div>
+                <a class="project-link" href="https://github.com/MrJuaumBR/RizzLeveling" target="_blank" rel="noopener"><i class="fab fa-github"></i> See RizzLeveling on GitHub <i class="fas fa-arrow-up-right-from-square"></i></a>
+            </div>
         </section>
-
         <section class="card">
             <h2>My goals</h2>
             <ul class="goals-list">
@@ -297,6 +349,17 @@
 
             <!-- PC Tab Content -->
             <div class="tab-content active" id="tab-setup-pc">
+                <div class="setup-history">
+                    <div class="setup-history-heading"><div><span class="repo-kicker"><i class="fas fa-clock-rotate-left"></i> MY WORKSPACE</span><h3>Setup evolution</h3></div><p>From my 2023 setup to the desk I use today.</p></div>
+                    <div class="setup-carousel" id="setupCarousel" aria-roledescription="carousel" aria-label="My PC setups through the years">
+                        <button class="setup-carousel-arrow setup-carousel-prev" type="button" aria-label="Previous setup"><i class="fas fa-chevron-left"></i></button>
+                        <figure class="setup-carousel-slide active" data-slide="0"><img src="/data/assets/1.png" alt="My computer and desk setup in 2023" loading="lazy"><figcaption><span>THE BEGINNING</span><strong>2023</strong></figcaption></figure>
+                        <figure class="setup-carousel-slide" data-slide="1" hidden><img src="/data/assets/2.png" alt="My computer and desk setup in 2024" loading="lazy"><figcaption><span>THE UPGRADE</span><strong>2024</strong></figcaption></figure>
+                        <figure class="setup-carousel-slide" data-slide="2" hidden><img src="/data/assets/3.png" alt="My computer and desk setup in 2026" loading="lazy"><figcaption><span>CURRENT DESK</span><strong>2026</strong></figcaption></figure>
+                        <button class="setup-carousel-arrow setup-carousel-next" type="button" aria-label="Next setup"><i class="fas fa-chevron-right"></i></button>
+                        <div class="setup-carousel-footer"><span id="setupSlideCount">01 / 03</span><div class="setup-carousel-dots" role="tablist" aria-label="Choose a setup photo"><button class="active" type="button" data-go="0" aria-label="Show 2023 setup" aria-current="true"></button><button type="button" data-go="1" aria-label="Show 2024 setup"></button><button type="button" data-go="2" aria-label="Show 2026 setup"></button></div><span>2023 — 2026</span></div>
+                    </div>
+                </div>
                 <div class="table-responsive">
                     <table class="setup-table">
                         <tbody>
@@ -308,7 +371,7 @@
                             <tr><td><i class="fas fa-hdd"></i> Storage 1</td><td>512GB NVMe</td></tr>
                             <tr><td><i class="fas fa-hdd"></i> Storage 2</td><td>1TB SSD</td></tr>
                             <tr><td><i class="fab fa-windows"></i> OS</td><td>Windows 11</td></tr>
-                            <tr><td><i class="fas fa-keyboard"></i> Keyboard</td><td>White Label 75%</td></tr>
+                            <tr><td><i class="fas fa-keyboard"></i> Keyboard</td><td>Machenike K500 B94 100%</td></tr>
                             <tr><td><i class="fas fa-mouse"></i> Mouse</td><td>Fire Phoenix Bk-R3X</td></tr>
                             <tr><td><i class="fas fa-tv"></i> Monitor</td><td>Kolke 27" 120Hz Curved & mnBox 24" 75Hz</td></tr>
                             <tr><td><i class="fas fa-cube"></i> 3D Printer</td><td>Anycubic Kobra X (with Ace2 Pro)</td></tr>
@@ -326,6 +389,7 @@
                             <tr><td><i class="fas fa-xbox"></i> Xbox 360</td><td>Super Slim (250GB)</td></tr>
                             <tr><td><i class="fas fa-vr"></i> Meta Quest 3S</td><td>128GB</td></tr>
                             <tr><td><i class="fas fa-n3ds"></i> Nintendo 3DS</td><td>Old (Original)</td></tr>
+                            <tr><td><i class="fas fa-drone"></i> Drone</td><td>DJI Mini 2</tr></tr>
                         </tbody>
                     </table>
                 </div>
