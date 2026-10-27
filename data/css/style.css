@@ -2005,3 +2005,27 @@ body.skin-windows-xp.theme-dark.palette-d { --primary:#365fa0; --primary-light:#
 #projects .project-screenshot figcaption { padding:.55rem .75rem; color:var(--text-muted); font-size:.74rem; text-align:center; }
 .game-details-toggle:focus-visible { outline:3px solid var(--accent); outline-offset:3px; }
 .skin-windows-xp #projects .project-screenshot { border-radius:4px; }
+
+/* ============================================================
+   26. ABYSSAL ECLIPSE 3DS – 3-UP SCREENSHOT ROW
+   ============================================================ */
+.screenshots-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+}
+.screenshots-grid .project-screenshot {
+    margin: 0;
+}
+.screenshots-grid .project-screenshot img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+}
+@media (max-width: 650px) {
+    .screenshots-grid {
+        grid-template-columns: 1fr;
+    }
+}

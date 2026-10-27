@@ -7,7 +7,7 @@
 - [Portfolio home](https://mrjuaumbr.github.io/): Single-page portfolio covering the developer profile, skills, projects, GitHub repositories, contacts, PC setup, favorite games and artists.
 - [About](https://mrjuaumbr.github.io/#whoami): Developer background and interests.
 - [Skills](https://mrjuaumbr.github.io/#whatiknow): Python, HTML, CSS, JavaScript, Luau, Blender, Aseprite and 3D printing.
-- [Projects](https://mrjuaumbr.github.io/#projects): Eleven project profiles shown as tabs on the homepage; the tabs are not separate page URLs.
+- [Projects](https://mrjuaumbr.github.io/#projects): Twelve project profiles shown as tabs on the homepage; the tabs are not separate page URLs.
 - [GitHub repositories](https://mrjuaumbr.github.io/#github-projects): GitHub profile and repository listing.
 - [Contacts](https://mrjuaumbr.github.io/#contacts): Public social and creator profiles.
 - [PC setup](https://mrjuaumbr.github.io/#setup): Setup history for 2023, 2024 and 2026, plus current PC and console details.
@@ -15,6 +15,7 @@
 
 ## Featured projects
 
+- [Abyssal Eclipse 3DS](https://github.com/MrJuaumBR/AbyssalEclipse3DS): Fast-paced 2D pixel-art arena-survivor roguelite built natively for the Nintendo 3DS in C++17 with devkitARM, libctru, citro3d and citro2d. Five seasons, 137 spells, 25 enemy types, procedural asset generation, English and Portuguese (BR) localization.
 - [LunaEngine](https://github.com/MrJuaumBR/LunaEngine) · [Project site](https://mrjuaumbr.github.io/LunaEngine): Python 2D game framework with systems for scenes, rendering, UI, effects, audio, storage and debugging; uses Pygame, NumPy, OpenGL and OpenAL.
 - [NCheats](https://github.com/MrJuaumBR/NCheats): Browser-based cheat-code library for Nintendo Switch, Nintendo 3DS and Game Boy Advance.
 - [LunaEngine-Games](https://github.com/MrJuaumBR/LunaEngine-Games): Companion game collection and desktop launcher for browsing, installing, updating and launching games.
