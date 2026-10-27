@@ -23,6 +23,7 @@
 - [RizzLeveling](https://github.com/MrJuaumBR/RizzLeveling): Interactive character dashboard with stats, skills, inventory, a live clock and canvas effects; it also inspired the portfolio’s Solo Leveling skin.
 - [JPyDB](https://github.com/MrJuaumBR/JPyDB): Pure-Python storage system with a SQL-inspired table workflow and spreadsheet export.
 - [Abyssal Eclipse](https://github.com/MrJuaumBR/AbyssalEclipse): In-development Python 2D roguelike shooter with randomized level-up cards.
+- [Abyssal Eclipse 3DS](https://github.com/MrJuaumBR/AbyssalEclipse3DS): v0.1 2D pixel-art arena-survivor roguelite for the original Nintendo 3DS, written in C++17 with devkitARM, libctru, citro3d and citro2d. 147 spells, 25 enemy types, nine weapons, five seasons / 15 campaign levels, 23 achievements, procedural asset generation, English and Brazilian Portuguese.
 - [Wireless Keyboard](https://github.com/MrJuaumBR/WirelessKeyboard): Python tool for connecting a phone browser to a PC server through a local URL or QR code.
 - [Pixel Dungeon 2](https://github.com/MrJuaumBR/PixelDungeon2): Python/Pygame pixel-art RPG; the portfolio includes a screenshot showing version 1.0.3.
 - [Medieval Life](https://www.roblox.com/games/14806242136/Medieval-Life): Roblox RPG project with a brief homepage overview and screenshot.
